@@ -89,8 +89,7 @@ crashlytics-build.properties
 
 # jetbrains rider:
 
-# unity package:
-
+**/.idea
 
 # User specific
 **/.idea/**/workspace.xml
