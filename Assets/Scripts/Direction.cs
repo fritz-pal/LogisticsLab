@@ -8,5 +8,5 @@ public enum Direction
     SOUTHEAST,
     EAST,
     NORTHEAST,
-    None
+    NONE
 }

@@ -37,6 +37,11 @@ public class GridManager : MonoBehaviour
 
     public void addTrack(Track track)
     {
+        if (track == null)
+        {
+            Debug.Log("Track is null");
+            return;
+        }
         tracks.Add(track);
     }
 
@@ -92,6 +97,81 @@ public class GridManager : MonoBehaviour
         foreach (Track track in tracks)
         {
             track.DebugTrack();
+        }
+    }
+
+    public static Direction DirectionFromVector(Vector2Int vector)
+    {
+        if (vector.x == 0 && vector.y == 1)
+        {
+            return Direction.NORTH;
+        }
+        else if (vector.x == -1 && vector.y == 1)
+        {
+            return Direction.NORTHWEST;
+        }
+        else if (vector.x == -1 && vector.y == 0)
+        {
+            return Direction.WEST;
+        }
+        else if (vector.x == -1 && vector.y == -1)
+        {
+            return Direction.SOUTHWEST;
+        }
+        else if (vector.x == 0 && vector.y == -1)
+        {
+            return Direction.SOUTH;
+        }
+        else if (vector.x == 1 && vector.y == -1)
+        {
+            return Direction.SOUTHEAST;
+        }
+        else if (vector.x == 1 && vector.y == 0)
+        {
+            return Direction.EAST;
+        }
+        else if (vector.x == 1 && vector.y == 1)
+        {
+            return Direction.NORTHEAST;
+        }
+        else
+        {
+            return Direction.NONE;
+        }
+    }
+
+    public static Vector2Int AngleToVector(float angle)
+    {
+        float radians = angle * (Mathf.PI / 180);
+
+        double x = Mathf.Cos(radians);
+        double y = Mathf.Sin(radians);
+
+        return new Vector2Int(Mathf.RoundToInt((float)x), Mathf.RoundToInt((float)y));
+    }
+
+    public static Vector2Int VectorFromDirection(Direction direction)
+    {
+        switch (direction)
+        {
+            case Direction.NORTH:
+                return new Vector2Int(0, 1);
+            case Direction.NORTHWEST:
+                return new Vector2Int(-1, 1);
+            case Direction.WEST:
+                return new Vector2Int(-1, 0);
+            case Direction.SOUTHWEST:
+                return new Vector2Int(-1, -1);
+            case Direction.SOUTH:
+                return new Vector2Int(0, -1);
+            case Direction.SOUTHEAST:
+                return new Vector2Int(1, -1);
+            case Direction.EAST:
+                return new Vector2Int(1, 0);
+            case Direction.NORTHEAST:
+                return new Vector2Int(1, 1);
+            default:
+                return new Vector2Int(0, 0);
         }
     }
 }

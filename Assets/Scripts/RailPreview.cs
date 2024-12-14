@@ -3,14 +3,18 @@ using UnityEngine.InputSystem;
 
 public class RailPreview : MonoBehaviour
 {
-    public bool show = true;
+    private bool show = true;
     public Direction rotation = Direction.NORTH;
+    public float maxCurveAngle = 15f;
+    public float maxCurveDistance = 4f;
+
     public GridManager gridManager;
     public LineRenderer line;
     private Vector2Int? firstPosition = null;
+    private Direction? firstDirection = null;
+
     void Start()
     {   
-        gameObject.SetActive(show);
         line = GetComponent<LineRenderer>();
         line.positionCount = 2;
         line.enabled = false;
@@ -18,28 +22,58 @@ public class RailPreview : MonoBehaviour
 
     void Update()
     {
-        if (show) {
-            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            transform.position = new Vector3(Mathf.Round(mousePos.x), Mathf.Round(mousePos.y), 0);
-            transform.rotation = Quaternion.Euler(0, 0, (int)rotation * 45);
-        }
-        gameObject.SetActive(show);
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector2Int gridPos = new Vector2Int(Mathf.RoundToInt(mousePos.x), Mathf.RoundToInt(mousePos.y));
 
         if (firstPosition != null)
         {
             line.SetPosition(1, transform.position);
+            (float, float) angles = Track.GetAngles(firstDirection.Value, firstPosition.Value, gridPos, maxCurveAngle);
+            if (Mathf.Abs(angles.Item1) <= angles.Item2 && gridPos != firstPosition && Vector2Int.Distance(firstPosition.Value, gridPos) <= maxCurveDistance)
+            {
+                show = true;
+                float nearestAngle = Mathf.Round(angles.Item1 / 45) * 45;
+                if (nearestAngle == 0 && angles.Item1 != 0)
+                {
+                    if (angles.Item1 > 0)
+                    {
+                        nearestAngle = 45;
+                    }
+                    else
+                    {
+                        nearestAngle = -45;
+                    }
+                }
+                Vector2Int vector = GridManager.AngleToVector(nearestAngle);
+                rotation = (Direction)(((int)GridManager.DirectionFromVector(vector) + (int)firstDirection.Value + 2) % 8);
+
+                transform.position = new Vector3(gridPos.x, gridPos.y, 0);
+                transform.rotation = Quaternion.Euler(0, 0, (int)rotation * 45);
+            }
+            else
+            {   
+                //calculate nearest possible position
+                firstDirection = (Direction)(((int)firstDirection + 4) % 8); // reverse direction
+              
+            }
         } 
         else
         {
             line.enabled = false;
+            show = true;
+            transform.position = new Vector3(gridPos.x, gridPos.y, 0);
+            transform.rotation = Quaternion.Euler(0, 0, (int)rotation * 45);
         }
+        gameObject.GetComponent<SpriteRenderer>().enabled = show;
     }
 
     public void HandleRightClick(InputAction.CallbackContext context)
     {
-        if (context.ReadValue<float>() > 0)
+        if (context.ReadValue<float>() > 0 && firstPosition == null)
         {
-            rotation = (Direction)(((int)rotation - 1) % 8);
+            int rot = ((int)rotation - 1) % 8;
+            if (rot < 0) rot = 7;
+            rotation = (Direction) rot;
         }
     }
 
@@ -47,18 +81,28 @@ public class RailPreview : MonoBehaviour
     {
         if (context.ReadValue<float>() > 0)
         {
-            if (firstPosition == null)
+            Vector2Int secondPosition = new Vector2Int(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.y));
+            if (firstPosition != null)
             {
-                firstPosition = new Vector2Int(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.y));
-                line.SetPosition(0, transform.position);
-                line.enabled = true;
-            }
-            else
-            {
-                Vector2Int secondPosition = new Vector2Int(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.y));
-                Track track = new Track(firstPosition.Value, secondPosition, rotation);
+                Track track = new Track(firstPosition.Value, secondPosition, firstDirection.Value, rotation);
                 gridManager.addTrack(track);
+            }
+            Debug.Log("Left click at " + secondPosition + " with rotation " + rotation);
+            firstPosition = secondPosition;
+            firstDirection = rotation;
+            line.SetPosition(0, transform.position);
+            line.enabled = true;
+        }
+    }
+
+    public void HandleCancel(InputAction.CallbackContext context)
+    {
+        if (context.ReadValue<float>() > 0)
+        {
+            if (firstPosition != null)
+            {
                 firstPosition = null;
+                firstDirection = null;
                 line.enabled = false;
             }
         }
