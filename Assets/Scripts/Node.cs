@@ -6,7 +6,7 @@ public class Node
     private List<Node> transitions;
     private Node sibling;
     public Vector2Int position;
-    private Direction direction;
+    public Direction direction;
 
     public Node(Vector2Int position, Direction direction)
     {

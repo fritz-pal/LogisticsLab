@@ -2,15 +2,15 @@ using System.Collections.Generic;
 using System.Data;
 using Unity.Collections;
 using UnityEngine;
+using UnityEngine.Splines;
 
 public class GridManager : MonoBehaviour
 {
-
     public GameObject gridPrefab;
     public int width, height;
     public GameObject railPrefab;
     public static GridManager Instance { get; private set; }
-
+    public GameObject splineObject;
     private Dictionary<Vector2Int, NodeGroup> nodeGroups = new Dictionary<Vector2Int, NodeGroup>();
     private List<Track> tracks = new List<Track>();
 
@@ -43,6 +43,7 @@ public class GridManager : MonoBehaviour
             return;
         }
         tracks.Add(track);
+        CreateSpline(track.GetNodes().Item1.position, track.GetNodes().Item2.position, track.GetNodes().Item1.direction, track.GetNodes().Item2.direction);
     }
 
     public bool CreateNodeGroup(Vector2Int position, Direction alignment, Node[] nodes)
@@ -72,6 +73,29 @@ public class GridManager : MonoBehaviour
         return true;
     }
 
+    public void CreateSpline(Vector2Int start, Vector2Int end, Direction startDirection, Direction endDirection)
+    {
+        Vector2Int startVector = VectorFromDirection(startDirection);
+        Vector2Int endVector = VectorFromDirection(endDirection);
+
+        Vector3 startPoint = new Vector3(start.x, start.y, 0);
+        Vector3 endPoint = new Vector3(end.x, end.y, 0);
+        Vector3 startVector3 = new Vector3(startVector.x, startVector.y, 0);
+        Vector3 endVector3 = new Vector3(endVector.x, endVector.y, 0);
+
+        float bezierTangentLength = 1.0f;
+
+        Spline spline = new Spline();
+
+        Vector3 startTangent = startVector3 * bezierTangentLength;
+        Vector3 endTangent = endVector3 * -bezierTangentLength;
+
+        spline.Add(new BezierKnot(startPoint, startTangent, startTangent, Quaternion.identity));
+        spline.Add(new BezierKnot(endPoint, endTangent, endTangent, Quaternion.identity));
+
+        splineObject.GetComponent<SplineContainer>().AddSpline(spline);
+        splineObject.GetComponent<SplineInstantiate>().UpdateInstances();
+    }
 
 
     void Update()
@@ -152,26 +176,17 @@ public class GridManager : MonoBehaviour
 
     public static Vector2Int VectorFromDirection(Direction direction)
     {
-        switch (direction)
+        return direction switch
         {
-            case Direction.NORTH:
-                return new Vector2Int(0, 1);
-            case Direction.NORTHWEST:
-                return new Vector2Int(-1, 1);
-            case Direction.WEST:
-                return new Vector2Int(-1, 0);
-            case Direction.SOUTHWEST:
-                return new Vector2Int(-1, -1);
-            case Direction.SOUTH:
-                return new Vector2Int(0, -1);
-            case Direction.SOUTHEAST:
-                return new Vector2Int(1, -1);
-            case Direction.EAST:
-                return new Vector2Int(1, 0);
-            case Direction.NORTHEAST:
-                return new Vector2Int(1, 1);
-            default:
-                return new Vector2Int(0, 0);
-        }
+            Direction.NORTH => new Vector2Int(0, 1),
+            Direction.NORTHWEST => new Vector2Int(-1, 1),
+            Direction.WEST => new Vector2Int(-1, 0),
+            Direction.SOUTHWEST => new Vector2Int(-1, -1),
+            Direction.SOUTH => new Vector2Int(0, -1),
+            Direction.SOUTHEAST => new Vector2Int(1, -1),
+            Direction.EAST => new Vector2Int(1, 0),
+            Direction.NORTHEAST => new Vector2Int(1, 1),
+            _ => new Vector2Int(0, 0),
+        };
     }
 }

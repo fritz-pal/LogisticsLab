@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Splines;
 
 public class RailPreview : MonoBehaviour
 {
@@ -7,7 +8,6 @@ public class RailPreview : MonoBehaviour
     public Direction rotation = Direction.NORTH;
     public float maxCurveAngle = 15f;
     public float maxCurveDistance = 4f;
-
     public GridManager gridManager;
     public LineRenderer line;
     private Vector2Int? firstPosition = null;

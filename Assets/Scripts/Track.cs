@@ -25,6 +25,10 @@ public class Track
         Debug.DrawLine(new Vector3(nodes.Item1.position.x, nodes.Item1.position.y, 0), new Vector3(nodes.Item2.position.x, nodes.Item2.position.y, 0), Color.red);
     }
 
+    public (Node, Node) GetNodes(){
+        return nodes;
+    }
+
     public static (float, float) GetAngles(Direction direction, Vector2Int start, Vector2Int end, float maxCurveAngle){
         Vector2Int angle = GridManager.VectorFromDirection(direction);
         float distance = Vector2Int.Distance(start, end);  
