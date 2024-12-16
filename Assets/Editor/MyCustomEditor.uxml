@@ -1,0 +1,22 @@
+<engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <engine:GroupBox style="align-self: flex-start; justify-content: flex-start; flex-direction: row;">
+        <engine:Button text="Menu" name="Menu" />
+        <engine:Button text="place Signal" name="Signal" />
+        <engine:Button text="place Station" name="Station" />
+        <engine:Button text="place Train" name="Train" />
+        <engine:Button text="place Track" name="Track" />
+    </engine:GroupBox>
+    <engine:VisualElement name="GameMenu" enabled="false" focusable="false" style="flex-grow: 1; height: 508px; width: 292px; align-self: center; align-content: center; justify-content: center; align-items: stretch; flex-direction: column; display: none; visibility: visible;">
+        <engine:Label text="Game Menu" style="align-self: center;" />
+        <engine:Button text="Resume Game" name="Resume" />
+        <engine:Button text="Save Game" name="Save" />
+        <engine:Button text="End Game" name="Exit" />
+    </engine:VisualElement>
+    <engine:GroupBox style="height: 505px; width: 513px; align-self: center; justify-content: flex-start; background-color: rgba(101, 101, 101, 0);">
+        <engine:Label text="Train Menu" />
+        <engine:TextField label="Train Name:" placeholder-text="Train 1" />
+        <engine:IntegerField label="Train Length:" value="1" vertical-scroller-visibility="AlwaysVisible" is-delayed="false" hide-placeholder-on-focus="false" max-length="20" />
+        <engine:Label text="Time Table:" />
+        <engine:DropdownField label="Add Station" />
+    </engine:GroupBox>
+</engine:UXML>
