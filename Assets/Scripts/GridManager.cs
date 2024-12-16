@@ -78,20 +78,16 @@ public class GridManager : MonoBehaviour
         Vector2Int startVector = VectorFromDirection(startDirection);
         Vector2Int endVector = VectorFromDirection(endDirection);
 
-        Vector3 startPoint = new Vector3(start.x, start.y, 0);
-        Vector3 endPoint = new Vector3(end.x, end.y, 0);
-        Vector3 startVector3 = new Vector3(startVector.x, startVector.y, 0);
-        Vector3 endVector3 = new Vector3(endVector.x, endVector.y, 0);
+        float bezierTangentLength = Mathf.Min(2, Vector2Int.Distance(start, end) / 3);
+        Debug.Log("Bezier tangent length: " + bezierTangentLength);
+        Spline spline = new();
 
-        float bezierTangentLength = 1.0f;
+        Vector3 startTangent = new Vector3(startVector.x, 0, startVector.y) * bezierTangentLength;
+        Vector3 endTangent = new Vector3(endVector.x, 0, endVector.y) * -bezierTangentLength;
 
-        Spline spline = new Spline();
-
-        Vector3 startTangent = startVector3 * bezierTangentLength;
-        Vector3 endTangent = endVector3 * -bezierTangentLength;
-
-        spline.Add(new BezierKnot(startPoint, startTangent, startTangent, Quaternion.identity));
-        spline.Add(new BezierKnot(endPoint, endTangent, endTangent, Quaternion.identity));
+        Quaternion knotRotation = Quaternion.LookRotation(Vector3.up);
+        spline.Add(new BezierKnot(new Vector3(start.x, start.y, 0), startTangent, startTangent, knotRotation));
+        spline.Add(new BezierKnot(new Vector3(end.x, end.y, 0), endTangent, endTangent, knotRotation));
 
         splineObject.GetComponent<SplineContainer>().AddSpline(spline);
         splineObject.GetComponent<SplineInstantiate>().UpdateInstances();

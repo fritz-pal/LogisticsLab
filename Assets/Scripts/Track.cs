@@ -10,6 +10,7 @@ public class Track
     {
         // calculate crossings
         // make splines
+        // add transitions
         nodes = (new(start, startDirection), new(end, endDirection));
         nodes.Item1.SetSibling(nodes.Item2);
         nodes.Item2.SetSibling(nodes.Item1);

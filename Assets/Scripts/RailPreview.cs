@@ -53,7 +53,7 @@ public class RailPreview : MonoBehaviour
             else
             {   
                 //calculate nearest possible position
-                firstDirection = (Direction)(((int)firstDirection + 4) % 8); // reverse direction
+                //firstDirection = (Direction)(((int)firstDirection + 4) % 8); <--- das funktioniert nicht, weil es manchmal random falsche richtungen gibt
               
             }
         } 
