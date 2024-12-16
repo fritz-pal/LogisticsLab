@@ -252,7 +252,19 @@ MonoBehaviour:
     m_ActionId: 7607c7b6-cd76-4816-beef-bd0341cfe950
     m_ActionName: 'UI/Submit[/Keyboard/enter]'
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 406637188}
+        m_TargetAssemblyTypeName: RailPreview, Assembly-CSharp
+        m_MethodName: HandleCancel
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 15cef263-9014-4fd5-94d9-4e4a6234a6ef
     m_ActionName: 'UI/Cancel[/Keyboard/escape]'
   - m_PersistentCalls:
@@ -614,10 +626,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af5ae66e4d16083438424849a51c3f57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  show: 1
   rotation: 0
+  maxCurveAngle: 12
+  maxCurveDistance: 5
   gridManager: {fileID: 499516733}
-  line: {fileID: 0}
+  line: {fileID: 406637191}
 --- !u!212 &406637189
 SpriteRenderer:
   m_ObjectHideFlags: 0
