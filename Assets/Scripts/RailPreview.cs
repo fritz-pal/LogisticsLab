@@ -10,20 +10,35 @@ public class RailPreview : MonoBehaviour
     public float maxCurveDistance = 4f;
     public GridManager gridManager;
     public GameObject previewSpline;
+    public GameObject backgroundPlaneObject;
     private Spline spline = new();
     private Vector2Int? firstPosition = null;
     private Direction? firstDirection = null;
-
+    
     void Start()
     {
         previewSpline.GetComponent<SplineContainer>().enabled = false;
         previewSpline.GetComponent<SplineContainer>().AddSpline(spline);
     }
+    
+private Vector3 GetMousePosition()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out RaycastHit hitInfo))
+        {
+            if (hitInfo.collider.gameObject == backgroundPlaneObject)
+            {
+                Vector3 hitPoint = hitInfo.point;
+                return hitPoint;
+            }
+        }
+        return Vector3.zero; //TODO maybe improve
+    }
 
     void Update()
     {
-        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Vector2Int gridPos = new Vector2Int(Mathf.RoundToInt(mousePos.x), Mathf.RoundToInt(mousePos.y));
+        Vector3 mousePos = GetMousePosition();
+        Vector2Int gridPos = new Vector2Int(Mathf.RoundToInt(mousePos.x)-1, Mathf.RoundToInt(mousePos.y)-1);
 
         if (firstPosition != null)
         {
