@@ -17,14 +17,14 @@ public class RailPreview : MonoBehaviour
     private Spline spline = new();
     private Vector2Int? firstPosition = null;
     private Direction? firstDirection = null;
-    
+
     void Start()
     {
         previewSpline.GetComponent<SplineInstantiate>().enabled = false;
         previewSpline.GetComponent<SplineContainer>().AddSpline(spline);
     }
-    
-private Vector3 GetMousePosition()
+
+    private Vector3 GetMousePosition()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit hitInfo))
@@ -32,7 +32,7 @@ private Vector3 GetMousePosition()
             if (hitInfo.collider.gameObject == backgroundPlaneObject)
             {
                 Vector3 hitPoint = hitInfo.point;
-                Debug.Log("hit");
+                //Debug.Log("hit");
                 return hitPoint;
             }
         }
@@ -48,6 +48,7 @@ private Vector3 GetMousePosition()
         {
             previewSpline.GetComponent<SplineInstantiate>().enabled = true;
             (float, float) angles = Track.GetAngles(firstDirection.Value, firstPosition.Value, gridPos, maxCurveAngle);
+            (float, float) angles2 = Track.GetAngles((Direction)(((int)firstDirection.Value + 4) % 8), firstPosition.Value, gridPos, maxCurveAngle);
             if (Mathf.Abs(angles.Item1) <= angles.Item2 && gridPos != firstPosition && Vector2Int.Distance(firstPosition.Value, gridPos) <= maxCurveDistance)
             {
                 show = true;
@@ -68,10 +69,38 @@ private Vector3 GetMousePosition()
 
                 transform.position = new Vector3(gridPos.x, gridPos.y, 0);
                 transform.rotation = Quaternion.Euler(0, 0, (int)rotation * 45);
-                
+
                 SetKnot(gridPos);
-            } 
-        } 
+            }
+            else if (Mathf.Abs(angles2.Item1) <= angles2.Item2 && gridPos != firstPosition && Vector2Int.Distance(firstPosition.Value, gridPos) <= maxCurveDistance)
+            {
+                firstDirection = (Direction)(((int)firstDirection.Value + 4) % 8);
+                show = true;
+                float nearestAngle = Mathf.Round(angles2.Item1 / 45) * 45;
+                if (nearestAngle == 0 && angles2.Item1 != 0)
+                {
+                    if (angles2.Item1 > 0)
+                    {
+                        nearestAngle = 45;
+                    }
+                    else
+                    {
+                        nearestAngle = -45;
+                    }
+                }
+                Vector2Int vector = GridManager.AngleToVector(nearestAngle);
+                rotation = (Direction)(((int)GridManager.DirectionFromVector(vector) + (int)firstDirection.Value + 6) % 8);
+
+                transform.position = new Vector3(gridPos.x, gridPos.y, 0);
+                transform.rotation = Quaternion.Euler(0, 0, (int)rotation * 45);
+
+                SetKnot(gridPos);
+                BezierKnot knot = spline.ToArray()[0];
+                knot.TangentIn *= -1;
+                knot.TangentOut *= -1;
+                spline.SetKnot(0, knot);
+            }
+        }
         else
         {
             previewSpline.GetComponent<SplineInstantiate>().enabled = false;
@@ -101,7 +130,7 @@ private Vector3 GetMousePosition()
         {
             int rot = ((int)rotation - 1) % 8;
             if (rot < 0) rot = 7;
-            rotation = (Direction) rot;
+            rotation = (Direction)rot;
         }
     }
 
