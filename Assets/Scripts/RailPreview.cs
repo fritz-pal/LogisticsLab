@@ -68,21 +68,8 @@ private Vector3 GetMousePosition()
                 transform.position = new Vector3(gridPos.x, gridPos.y, 0);
                 transform.rotation = Quaternion.Euler(0, 0, (int)rotation * 45);
                 
-                BezierKnot knot = spline.ToArray()[1];
-                knot.Position = new Vector3(gridPos.x, gridPos.y, 0);
-                Vector2Int tangentVector = GridManager.VectorFromDirection(rotation);
-                Vector3 tangent = new Vector3(tangentVector.x, 0, tangentVector.y) * -1;
-                knot.TangentIn = tangent;
-                knot.TangentOut = tangent;
-                spline.SetKnot(1, knot);
-                previewSpline.GetComponent<SplineInstantiate>().UpdateInstances();
-            }
-            else
-            {   
-                //calculate nearest possible position
-                //firstDirection = (Direction)(((int)firstDirection + 4) % 8); <--- das funktioniert nicht, weil es manchmal random falsche richtungen gibt
-              
-            }
+                SetKnot(gridPos);
+            } 
         } 
         else
         {
@@ -93,6 +80,18 @@ private Vector3 GetMousePosition()
             transform.rotation = Quaternion.Euler(0, 0, (int)rotation * 45);
         }
         gameObject.GetComponent<SpriteRenderer>().enabled = show;
+    }
+
+    private void SetKnot(Vector2Int gridPos)
+    {
+        BezierKnot knot = spline.ToArray()[1];
+        knot.Position = new Vector3(gridPos.x, gridPos.y, 0);
+        Vector2Int tangentVector = GridManager.VectorFromDirection(rotation);
+        Vector3 tangent = new Vector3(tangentVector.x, 0, tangentVector.y) * -1;
+        knot.TangentIn = tangent;
+        knot.TangentOut = tangent;
+        spline.SetKnot(1, knot);
+        previewSpline.GetComponent<SplineInstantiate>().UpdateInstances();
     }
 
     public void HandleRightClick(InputAction.CallbackContext context)
