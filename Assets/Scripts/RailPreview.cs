@@ -14,6 +14,7 @@ public class RailPreview : MonoBehaviour
     public GridManager gridManager;
     public GameObject previewSpline;
     public GameObject backgroundPlaneObject;
+    public GameObject previewObject;
     private Spline spline = new();
     private Vector2Int? firstPosition = null;
     private Direction? firstDirection = null;
@@ -46,12 +47,12 @@ public class RailPreview : MonoBehaviour
 
         if (firstPosition != null)
         {
+            show = false;
             previewSpline.GetComponent<SplineInstantiate>().enabled = true;
             (float, float) angles = Track.GetAngles(firstDirection.Value, firstPosition.Value, gridPos, maxCurveAngle);
             (float, float) angles2 = Track.GetAngles((Direction)(((int)firstDirection.Value + 4) % 8), firstPosition.Value, gridPos, maxCurveAngle);
             if (Mathf.Abs(angles.Item1) <= angles.Item2 && gridPos != firstPosition && Vector2Int.Distance(firstPosition.Value, gridPos) <= maxCurveDistance)
             {
-                show = true;
                 float nearestAngle = Mathf.Round(angles.Item1 / 45) * 45;
                 if (nearestAngle == 0 && angles.Item1 != 0)
                 {
@@ -75,7 +76,6 @@ public class RailPreview : MonoBehaviour
             else if (Mathf.Abs(angles2.Item1) <= angles2.Item2 && gridPos != firstPosition && Vector2Int.Distance(firstPosition.Value, gridPos) <= maxCurveDistance)
             {
                 firstDirection = (Direction)(((int)firstDirection.Value + 4) % 8);
-                show = true;
                 float nearestAngle = Mathf.Round(angles2.Item1 / 45) * 45;
                 if (nearestAngle == 0 && angles2.Item1 != 0)
                 {
@@ -109,7 +109,7 @@ public class RailPreview : MonoBehaviour
             transform.position = new Vector3(gridPos.x, gridPos.y, 0);
             transform.rotation = Quaternion.Euler(0, 0, (int)rotation * 45);
         }
-        gameObject.GetComponent<SpriteRenderer>().enabled = show;
+        previewObject.SetActive(show);
     }
 
     private void SetKnot(Vector2Int gridPos)
