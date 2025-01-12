@@ -490,26 +490,26 @@ MonoBehaviour:
   m_Container: {fileID: 315939121}
   m_ItemsToInstantiate:
   - prefab: {fileID: 0}
-    Prefab: {fileID: 2689209407455658938, guid: a2c1872ffcc85ae44aadf79641a02531, type: 3}
+    Prefab: {fileID: 7327711591076759188, guid: 26f6151c9e5c9884f83f40bf299a3885, type: 3}
     probability: 0
     Probability: 0
   m_Method: 1
   m_Space: 0
-  m_Spacing: {x: 0.6, y: 0.6}
+  m_Spacing: {x: 0.28, y: 0.28}
   m_Up: 1
   m_Forward: 2
   m_PositionOffset:
-    setup: 0
-    min: {x: 0, y: 0, z: 0}
-    max: {x: 0, y: 0, z: 0}
+    setup: 1
+    min: {x: 0, y: 0.1, z: 0}
+    max: {x: 0, y: 0.1, z: 0.1}
     randomX: 0
     randomY: 0
     randomZ: 0
     space: 0
   m_RotationOffset:
     setup: 1
-    min: {x: 90, y: 0, z: 0}
-    max: {x: 90, y: 90, z: 0}
+    min: {x: 0, y: 90, z: 0}
+    max: {x: 90, y: 90, z: 90}
     randomX: 0
     randomY: 0
     randomZ: 0
