@@ -32,6 +32,7 @@ private Vector3 GetMousePosition()
             if (hitInfo.collider.gameObject == backgroundPlaneObject)
             {
                 Vector3 hitPoint = hitInfo.point;
+                Debug.Log("hit");
                 return hitPoint;
             }
         }
@@ -41,7 +42,7 @@ private Vector3 GetMousePosition()
     void Update()
     {
         Vector3 mousePos = GetMousePosition();
-        Vector2Int gridPos = new Vector2Int(Mathf.RoundToInt(mousePos.x)-1, Mathf.RoundToInt(mousePos.y)-1);
+        Vector2Int gridPos = new Vector2Int(Mathf.RoundToInt(mousePos.x), Mathf.RoundToInt(mousePos.y));
 
         if (firstPosition != null)
         {
