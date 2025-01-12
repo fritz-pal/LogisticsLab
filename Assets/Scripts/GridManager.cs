@@ -43,7 +43,7 @@ public class GridManager : MonoBehaviour
             return;
         }
         tracks.Add(track);
-        CreateSpline(track.GetNodes().Item1.position, track.GetNodes().Item2.position, track.GetNodes().Item1.direction, track.GetNodes().Item2.direction);
+        CreateSpline(track.GetNodes().Item1.position, track.GetNodes().Item2.position, track.GetNodes().Item1.direction, track.GetNodes().Item2.direction, splineObject);
     }
 
     public bool CreateNodeGroup(Vector2Int position, Direction alignment, Node[] nodes)
@@ -69,11 +69,11 @@ public class GridManager : MonoBehaviour
         {
             nodeGroup.AddNode(node);
         }
-        Instantiate(railPrefab, new Vector3(position.x, position.y, 0), Quaternion.Euler(0, 0, (int)alignment * 45));
+        //Instantiate(railPrefab, new Vector3(position.x, position.y, 0), Quaternion.Euler(0, 0, (int)alignment * 45));
         return true;
     }
 
-    public void CreateSpline(Vector2Int start, Vector2Int end, Direction startDirection, Direction endDirection)
+    public void CreateSpline(Vector2Int start, Vector2Int end, Direction startDirection, Direction endDirection, GameObject splineObject)
     {
         Vector2Int startVector = VectorFromDirection(startDirection);
         Vector2Int endVector = VectorFromDirection(endDirection);

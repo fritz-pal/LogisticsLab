@@ -9,15 +9,15 @@ public class RailPreview : MonoBehaviour
     public float maxCurveAngle = 15f;
     public float maxCurveDistance = 4f;
     public GridManager gridManager;
-    public LineRenderer line;
+    public GameObject previewSpline;
+    private Spline spline = new();
     private Vector2Int? firstPosition = null;
     private Direction? firstDirection = null;
 
     void Start()
-    {   
-        line = GetComponent<LineRenderer>();
-        line.positionCount = 2;
-        line.enabled = false;
+    {
+        previewSpline.GetComponent<SplineContainer>().enabled = false;
+        previewSpline.GetComponent<SplineContainer>().AddSpline(spline);
     }
 
     void Update()
@@ -27,7 +27,7 @@ public class RailPreview : MonoBehaviour
 
         if (firstPosition != null)
         {
-            line.SetPosition(1, transform.position);
+            previewSpline.GetComponent<SplineContainer>().enabled = true;
             (float, float) angles = Track.GetAngles(firstDirection.Value, firstPosition.Value, gridPos, maxCurveAngle);
             if (Mathf.Abs(angles.Item1) <= angles.Item2 && gridPos != firstPosition && Vector2Int.Distance(firstPosition.Value, gridPos) <= maxCurveDistance)
             {
@@ -49,6 +49,15 @@ public class RailPreview : MonoBehaviour
 
                 transform.position = new Vector3(gridPos.x, gridPos.y, 0);
                 transform.rotation = Quaternion.Euler(0, 0, (int)rotation * 45);
+                
+                BezierKnot knot = spline.ToArray()[1];
+                knot.Position = new Vector3(gridPos.x, gridPos.y, 0);
+                Vector2Int tangentVector = GridManager.VectorFromDirection(rotation);
+                Vector3 tangent = new Vector3(tangentVector.x, 0, tangentVector.y) * -1;
+                knot.TangentIn = tangent;
+                knot.TangentOut = tangent;
+                spline.SetKnot(1, knot);
+                previewSpline.GetComponent<SplineInstantiate>().UpdateInstances();
             }
             else
             {   
@@ -59,7 +68,8 @@ public class RailPreview : MonoBehaviour
         } 
         else
         {
-            line.enabled = false;
+            previewSpline.GetComponent<SplineContainer>().enabled = false;
+            spline.Clear();
             show = true;
             transform.position = new Vector3(gridPos.x, gridPos.y, 0);
             transform.rotation = Quaternion.Euler(0, 0, (int)rotation * 45);
@@ -90,8 +100,11 @@ public class RailPreview : MonoBehaviour
             Debug.Log("Left click at " + secondPosition + " with rotation " + rotation);
             firstPosition = secondPosition;
             firstDirection = rotation;
-            line.SetPosition(0, transform.position);
-            line.enabled = true;
+            Vector2Int tangentVector = GridManager.VectorFromDirection(firstDirection.Value);
+            Vector3 tangent = new Vector3(tangentVector.x, 0, tangentVector.y);
+            spline.Clear();
+            spline.Add(new BezierKnot(new Vector3(secondPosition.x, secondPosition.y, 0), tangent, tangent, Quaternion.LookRotation(Vector3.up)));
+            spline.Add(new BezierKnot(new Vector3(secondPosition.x, secondPosition.y, 0), -tangent, -tangent, Quaternion.LookRotation(Vector3.up)));
         }
     }
 
@@ -103,7 +116,8 @@ public class RailPreview : MonoBehaviour
             {
                 firstPosition = null;
                 firstDirection = null;
-                line.enabled = false;
+                spline.Clear();
+                previewSpline.GetComponent<SplineContainer>().enabled = false;
             }
         }
     }
