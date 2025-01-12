@@ -120,6 +120,40 @@ public class GridManager : MonoBehaviour
         }
     }
 
+    public NodeGroup GetNodeGroup(Vector2Int position)
+    {
+        if (nodeGroups.ContainsKey(position))
+        {
+            return nodeGroups[position];
+        }
+        return null;
+    }
+
+    public bool CheckTrack(Vector2Int position1, Vector2Int position2, Direction direction1, Direction direction2)
+    {
+        if (position1 == position2)
+        {
+            return true;
+        }
+        if (nodeGroups.ContainsKey(position1))
+        {
+            NodeGroup nodeGroup1 = nodeGroups[position1];
+            if (!(nodeGroup1.GetAlignment() == direction1 || ((int)nodeGroup1.GetAlignment()) + 4 % 8 == (int)direction1))
+            {
+                return true;
+            }
+        }
+        if (nodeGroups.ContainsKey(position2))
+        {
+            NodeGroup nodeGroup2 = nodeGroups[position2];
+            if (!(nodeGroup2.GetAlignment() == direction2 || ((int)nodeGroup2.GetAlignment()) + 4 % 8 == (int)direction2))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static Direction DirectionFromVector(Vector2Int vector)
     {
         if (vector.x == 0 && vector.y == 1)

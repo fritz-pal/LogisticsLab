@@ -1,3 +1,4 @@
+using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Splines;
@@ -8,6 +9,8 @@ public class RailPreview : MonoBehaviour
     public Direction rotation = Direction.NORTH;
     public float maxCurveAngle = 15f;
     public float maxCurveDistance = 4f;
+    public AudioClip placeSound;
+    public AudioClip errorSound;
     public GridManager gridManager;
     public GameObject previewSpline;
     public GameObject backgroundPlaneObject;
@@ -17,7 +20,7 @@ public class RailPreview : MonoBehaviour
     
     void Start()
     {
-        previewSpline.GetComponent<SplineContainer>().enabled = false;
+        previewSpline.GetComponent<SplineInstantiate>().enabled = false;
         previewSpline.GetComponent<SplineContainer>().AddSpline(spline);
     }
     
@@ -42,7 +45,7 @@ private Vector3 GetMousePosition()
 
         if (firstPosition != null)
         {
-            previewSpline.GetComponent<SplineContainer>().enabled = true;
+            previewSpline.GetComponent<SplineInstantiate>().enabled = true;
             (float, float) angles = Track.GetAngles(firstDirection.Value, firstPosition.Value, gridPos, maxCurveAngle);
             if (Mathf.Abs(angles.Item1) <= angles.Item2 && gridPos != firstPosition && Vector2Int.Distance(firstPosition.Value, gridPos) <= maxCurveDistance)
             {
@@ -83,7 +86,7 @@ private Vector3 GetMousePosition()
         } 
         else
         {
-            previewSpline.GetComponent<SplineContainer>().enabled = false;
+            previewSpline.GetComponent<SplineInstantiate>().enabled = false;
             spline.Clear();
             show = true;
             transform.position = new Vector3(gridPos.x, gridPos.y, 0);
@@ -109,18 +112,41 @@ private Vector3 GetMousePosition()
             Vector2Int secondPosition = new Vector2Int(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.y));
             if (firstPosition != null)
             {
+                if (gridManager.CheckTrack(firstPosition.Value, secondPosition, firstDirection.Value, rotation))
+                {
+                    HandleError();
+                    return;
+                }
                 Track track = new Track(firstPosition.Value, secondPosition, firstDirection.Value, rotation);
                 gridManager.addTrack(track);
+                AudioSource.PlayClipAtPoint(placeSound, Camera.main.transform.position);
+
+                firstDirection = rotation;
+            }
+            else
+            {
+                if (gridManager.GetNodeGroup(secondPosition) != null)
+                {
+                    firstDirection = gridManager.GetNodeGroup(secondPosition).GetAlignment();
+                }
+                else
+                {
+                    firstDirection = rotation;
+                }
             }
             Debug.Log("Left click at " + secondPosition + " with rotation " + rotation);
             firstPosition = secondPosition;
-            firstDirection = rotation;
             Vector2Int tangentVector = GridManager.VectorFromDirection(firstDirection.Value);
             Vector3 tangent = new Vector3(tangentVector.x, 0, tangentVector.y);
             spline.Clear();
             spline.Add(new BezierKnot(new Vector3(secondPosition.x, secondPosition.y, 0), tangent, tangent, Quaternion.LookRotation(Vector3.up)));
             spline.Add(new BezierKnot(new Vector3(secondPosition.x, secondPosition.y, 0), -tangent, -tangent, Quaternion.LookRotation(Vector3.up)));
         }
+    }
+
+    public void HandleError()
+    {
+        AudioSource.PlayClipAtPoint(errorSound, Camera.main.transform.position);
     }
 
     public void HandleCancel(InputAction.CallbackContext context)
@@ -132,7 +158,7 @@ private Vector3 GetMousePosition()
                 firstPosition = null;
                 firstDirection = null;
                 spline.Clear();
-                previewSpline.GetComponent<SplineContainer>().enabled = false;
+                previewSpline.GetComponent<SplineInstantiate>().enabled = false;
             }
         }
     }
