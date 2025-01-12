@@ -19,7 +19,6 @@ public class Movement : MonoBehaviour
     void Update()
     {
         mainCamera.orthographicSize = Mathf.Lerp(mainCamera.orthographicSize, zoomLevel, Time.deltaTime * 10);
-
         Vector3 move = new Vector3(moveDirection.x, moveDirection.y, 0);
         transform.position += move * movementSpeed * Time.deltaTime * zoomLevel;
     }
@@ -34,5 +33,6 @@ public class Movement : MonoBehaviour
     public void HandleMove(InputAction.CallbackContext context)
     {
         moveDirection = context.ReadValue<Vector2>();
+        moveDirection = Quaternion.Euler(0, 0, -45) * moveDirection;
     }
 }

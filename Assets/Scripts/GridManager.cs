@@ -137,17 +137,21 @@ public class GridManager : MonoBehaviour
         }
         if (nodeGroups.ContainsKey(position1))
         {
+            Debug.Log("NodeGroup at position1");
             NodeGroup nodeGroup1 = nodeGroups[position1];
-            if (!(nodeGroup1.GetAlignment() == direction1 || ((int)nodeGroup1.GetAlignment()) + 4 % 8 == (int)direction1))
+            if (!(nodeGroup1.GetAlignment() == direction1 || (((int)nodeGroup1.GetAlignment()) + 4) % 8 == (int)direction1))
             {
+                Debug.Log("NodeGroup at position1 is not aligned with direction1 " + direction1 + " and alignment " + nodeGroup1.GetAlignment());
                 return true;
             }
         }
         if (nodeGroups.ContainsKey(position2))
         {
+            Debug.Log("NodeGroup at position2");
             NodeGroup nodeGroup2 = nodeGroups[position2];
-            if (!(nodeGroup2.GetAlignment() == direction2 || ((int)nodeGroup2.GetAlignment()) + 4 % 8 == (int)direction2))
+            if (!(nodeGroup2.GetAlignment() == direction2 || (((int)nodeGroup2.GetAlignment()) + 4) % 8 == (int)direction2))
             {
+                Debug.Log("NodeGroup at position2 is not aligned with direction2 " + direction2 + " and alignment " + nodeGroup2.GetAlignment());
                 return true;
             }
         }
