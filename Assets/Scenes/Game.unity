@@ -688,6 +688,8 @@ MonoBehaviour:
   rotation: 0
   maxCurveAngle: 12
   maxCurveDistance: 3.9
+  placeSound: {fileID: 8300000, guid: 6e32227b59c02d847815d8570d39be63, type: 3}
+  errorSound: {fileID: 8300000, guid: bbcc2b16e4d958b458e8367a61779261, type: 3}
   gridManager: {fileID: 499516733}
   previewSpline: {fileID: 1282762074}
 --- !u!212 &406637189
