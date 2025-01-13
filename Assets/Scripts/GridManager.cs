@@ -169,7 +169,7 @@ public class GridManager : MonoBehaviour
             if (hitInfo.collider.gameObject == backgroundPlaneObject)
             {
                 Vector3 hitPoint = hitInfo.point;
-                //Debug.Log("hit");
+                // Debug.Log("Hit point " + hitPoint);
                 return hitPoint;
             }
         }

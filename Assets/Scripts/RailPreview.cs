@@ -98,6 +98,7 @@ public class RailPreview : MonoBehaviour
 
     public void OnDisable()
     {
+        enabled = false;
         if (previewSpline == null) return;
         previewSpline.GetComponent<SplineInstantiate>().enabled = false;
         firstPosition = null;
@@ -119,6 +120,7 @@ public class RailPreview : MonoBehaviour
 
     public void HandleRightClick(InputAction.CallbackContext context)
     {
+        if (!enabled) return;
         if (context.ReadValue<float>() > 0 && firstPosition == null)
         {
             int rot = ((int)rotation - 1) % 8;
@@ -129,6 +131,7 @@ public class RailPreview : MonoBehaviour
 
     public void HandleLeftClick(InputAction.CallbackContext context)
     {
+        if (!enabled) return;
         if (context.ReadValue<float>() > 0)
         {
             Vector2Int secondPosition = new Vector2Int(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.y));
@@ -173,6 +176,7 @@ public class RailPreview : MonoBehaviour
 
     public void HandleCancel(InputAction.CallbackContext context)
     {
+        if (!enabled) return;
         if (context.ReadValue<float>() > 0)
         {
             if (firstPosition != null)
