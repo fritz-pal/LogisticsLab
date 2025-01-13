@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.LowLevel;
 
 public class Movement : MonoBehaviour
 {
@@ -16,7 +17,7 @@ public class Movement : MonoBehaviour
     void Start()
     {
         mainCamera.orthographicSize = zoomLevel;
-        railPreview.SetActive(false);
+        railPreview.SetActive(true);
         stationPreview.SetActive(false);
     }
 
@@ -46,6 +47,7 @@ public class Movement : MonoBehaviour
         {
             railPreview.SetActive(true);
             stationPreview.SetActive(false);
+            railPreview.GetComponent<RailPreview>().enabled = true;
         }
     }
 
@@ -55,6 +57,7 @@ public class Movement : MonoBehaviour
         {
             railPreview.SetActive(false);
             stationPreview.SetActive(true);
+            stationPreview.GetComponent<StationPreview>().enabled = true;
         }
     }
 }
