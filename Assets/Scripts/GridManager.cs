@@ -13,6 +13,8 @@ public class GridManager : MonoBehaviour
     public GameObject splineObject;
     private Dictionary<Vector2Int, NodeGroup> nodeGroups = new Dictionary<Vector2Int, NodeGroup>();
     private List<Track> tracks = new List<Track>();
+    public GameObject backgroundPlaneObject;
+
 
     void Start()
     {
@@ -25,9 +27,9 @@ public class GridManager : MonoBehaviour
             Destroy(gameObject);
         }
 
-        for (int x = -width/2; x < width/2; x++)
+        for (int x = -width / 2; x < width / 2; x++)
         {
-            for (int y = -height/2; y < height/2; y++)
+            for (int y = -height / 2; y < height / 2; y++)
             {
                 GameObject grid = Instantiate(gridPrefab, new Vector3(x, y, 0), Quaternion.identity);
                 grid.transform.parent = transform;
@@ -108,7 +110,8 @@ public class GridManager : MonoBehaviour
         }
     }
 
-    void DebugGrid(){
+    void DebugGrid()
+    {
         foreach (KeyValuePair<Vector2Int, NodeGroup> nodeGroup in nodeGroups)
         {
             Debug.Log("NodeGroup at " + nodeGroup.Key + " with alignment " + nodeGroup.Value.GetAlignment() + " has " + nodeGroup.Value.GetNodes());
@@ -156,6 +159,21 @@ public class GridManager : MonoBehaviour
             }
         }
         return false;
+    }
+
+    public Vector3 GetMousePosition()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out RaycastHit hitInfo))
+        {
+            if (hitInfo.collider.gameObject == backgroundPlaneObject)
+            {
+                Vector3 hitPoint = hitInfo.point;
+                //Debug.Log("hit");
+                return hitPoint;
+            }
+        }
+        return Vector3.zero; //TODO maybe improve
     }
 
     public static Direction DirectionFromVector(Vector2Int vector)

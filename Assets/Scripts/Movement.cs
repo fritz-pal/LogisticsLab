@@ -7,6 +7,8 @@ public class Movement : MonoBehaviour
     public int maxZoom = 10;
     public int minZoom = 1;
     public Camera mainCamera;
+    public GameObject railPreview;
+    public GameObject stationPreview;
     public float movementSpeed = 0.5f;
     private float zoomLevel = 5;
     private Vector2 moveDirection;
@@ -14,6 +16,8 @@ public class Movement : MonoBehaviour
     void Start()
     {
         mainCamera.orthographicSize = zoomLevel;
+        railPreview.SetActive(false);
+        stationPreview.SetActive(false);
     }
 
     void Update()
@@ -34,5 +38,23 @@ public class Movement : MonoBehaviour
     {
         moveDirection = context.ReadValue<Vector2>();
         moveDirection = Quaternion.Euler(0, 0, -45) * moveDirection;
+    }
+
+    public void HandleRailSelect(InputAction.CallbackContext context)
+    {
+        if (context.ReadValue<float>() > 0)
+        {
+            railPreview.SetActive(true);
+            stationPreview.SetActive(false);
+        }
+    }
+
+    public void HandleStationSelect(InputAction.CallbackContext context)
+    {
+        if (context.ReadValue<float>() > 0)
+        {
+            railPreview.SetActive(false);
+            stationPreview.SetActive(true);
+        }
     }
 }

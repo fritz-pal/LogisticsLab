@@ -13,7 +13,6 @@ public class RailPreview : MonoBehaviour
     public AudioClip errorSound;
     public GridManager gridManager;
     public GameObject previewSpline;
-    public GameObject backgroundPlaneObject;
     public GameObject previewObject;
     private Spline spline = new();
     private Vector2Int? firstPosition = null;
@@ -25,24 +24,9 @@ public class RailPreview : MonoBehaviour
         previewSpline.GetComponent<SplineContainer>().AddSpline(spline);
     }
 
-    private Vector3 GetMousePosition()
-    {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out RaycastHit hitInfo))
-        {
-            if (hitInfo.collider.gameObject == backgroundPlaneObject)
-            {
-                Vector3 hitPoint = hitInfo.point;
-                //Debug.Log("hit");
-                return hitPoint;
-            }
-        }
-        return Vector3.zero; //TODO maybe improve
-    }
-
     void Update()
     {
-        Vector3 mousePos = GetMousePosition();
+        Vector3 mousePos = gridManager.GetMousePosition();
         Vector2Int gridPos = new Vector2Int(Mathf.RoundToInt(mousePos.x), Mathf.RoundToInt(mousePos.y));
 
         if (firstPosition != null)
@@ -110,6 +94,15 @@ public class RailPreview : MonoBehaviour
             transform.rotation = Quaternion.Euler(0, 0, (int)rotation * 45);
         }
         previewObject.SetActive(show);
+    }
+
+    public void OnDisable()
+    {
+        if (previewSpline == null) return;
+        previewSpline.GetComponent<SplineInstantiate>().enabled = false;
+        firstPosition = null;
+        firstDirection = null;
+        spline.Clear();
     }
 
     private void SetKnot(Vector2Int gridPos)
