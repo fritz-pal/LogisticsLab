@@ -18,6 +18,12 @@ public class NodeGroup
     public void AddNode(Node node)
     {
         nodes.Add(node);
+        foreach (Node other in nodes){
+            if((int)node.direction == ((int)other.direction + 4) % 8){
+                node.AddTransition(other);
+                other.AddTransition(node);
+            }
+        }
     }
 
     public void SetStation(GameObject station)

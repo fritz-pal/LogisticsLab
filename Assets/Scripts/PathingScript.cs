@@ -3,34 +3,107 @@ using UnityEngine;
 
 public class PathingScript : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    private Dictionary<Node, (int, Node)> visitedNodes;
+    private int lowestCost;
+    private Node startNode;
+    private List<Node> destinationNodes;
+    private Direction destinationDirection; 
 
     /*
-     * returns a list of positions which then can be used to create a spline
+     * returns a list of nodes, that represent the shortest path from a given start node group to a destination node group
+     * (takes into account direction)
      */
-    public List<Vector2Int> GetPath(NodeGroup startNodeGroup, NodeGroup endNodeGroup)
+    public List<Node> GetPathNodes(NodeGroup startNodeGroup, Direction trainDirection, NodeGroup endNodeGroup) //TODO make this shit thread safe
     {
-        //nodegroups are dijkstra-nodes, we iterate through our train network
-        //costs between nodes are just number of tracks, or for the start its just always 1 between nodegroups,
-        //since the distances are somewhat similar
+        lock (this) //lock instance, so simultaneous method calls can not mess with the data fields
+        {
+            visitedNodes = new Dictionary<Node, (int, Node)>();
+            lowestCost = int.MaxValue;
+            startNode = null;
+            destinationNodes = endNodeGroup.GetNodes();
+            destinationDirection = Direction.NONE;
         
+            //get node with witch we start, from node group:
+            foreach (Node n in startNodeGroup.GetNodes())
+            {
+                if(n.GetTransitions()[0].direction == trainDirection)
+                    startNode = n;
+            }
         
-        //look for unvisited node (if none can be found end it)
-        //if unvisited node found, calculate 
+            //call our recursive method
+            GoToNextNode(startNode, 0);
         
-        
+            //search dict for all destination nodes and pick the one with the lowest cost 
+            int lowestDestinationCost = int.MaxValue;
+            Node finalDestinationNode = null;
+            foreach (Node n in destinationNodes)
+            {
+                if (visitedNodes.ContainsKey(n))
+                    if (visitedNodes[n].Item1 < lowestDestinationCost)
+                    {
+                        lowestDestinationCost = visitedNodes[n].Item1;
+                        finalDestinationNode = n;
+                    }
+            }
+            //once recursive method finished, just go from the destination node back to the start using the previous node entry,
+            //and this will then create our path
+            List<Node> path = new List<Node>();
+            Node pathNode = finalDestinationNode;
+            destinationDirection = finalDestinationNode.direction;
+            while (pathNode != startNode)
+            {
+                path.Add(pathNode);
+                pathNode = visitedNodes[pathNode].Item2;
+            }
+            return path;
+        }
+    }
 
-        return null;
+    public Direction GetDestinationDirection()
+    {
+        return destinationDirection;
+    }
+
+    private void GoToNextNode(Node node, int cost)
+    {
+        //check if done/end etc.
+        if (cost < lowestCost)
+            lowestCost = cost;
+        else
+            return;
+
+        foreach (Node n in destinationNodes)
+            if (n == node)
+                return;
+        
+        foreach (Node transitionNode in node.GetTransitions())
+        {   
+            Node nextNode = transitionNode.GetSibling();
+            
+            //look for the next node in our visited nodes list:
+            if (visitedNodes.ContainsKey(nextNode))
+            {
+                //is costs of current path are lower, replace it in list and continue:
+                if (cost < visitedNodes[nextNode].Item1)
+                {
+                    //TODO update entry, instead of remove and add
+                    visitedNodes.Remove(nextNode);
+                    visitedNodes.Add(nextNode, (cost + 1, node));
+                    GoToNextNode(nextNode, cost + 1);
+                }
+                //if cost of current path is higher or equal, then just abort
+                else
+                {
+                    return;
+                }
+            }
+            else
+            {
+                //if it does not exist just create a new entry
+                visitedNodes.Add(nextNode, (cost + 1, node));
+                GoToNextNode(nextNode, cost + 1);
+            }
+        }
     }
     
 }

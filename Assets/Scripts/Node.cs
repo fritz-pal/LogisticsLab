@@ -28,4 +28,14 @@ public class Node
     {
         sibling = node;
     }
+
+    public List<Node> GetTransitions()
+    {
+        return transitions;
+    }
+
+    public Node GetSibling()
+    {
+        return sibling;
+    }
 }
