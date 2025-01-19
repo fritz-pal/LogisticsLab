@@ -7,7 +7,6 @@ public class Train : MonoBehaviour
     public NodeGroup nodeGroup;
     public float speed = 1.0f;
     private bool isMoving = false;
-    public TrainPopup trainPopup;
     public List<Station> schedule;
 
 
@@ -24,7 +23,7 @@ public class Train : MonoBehaviour
 
     public void HandleClick()
     {
-        trainPopup.OpenTrainPopup(this);
+        GridManager.Instance.OpenTrainPopup(this);
     }
 
     public void ToggleIsMoving()

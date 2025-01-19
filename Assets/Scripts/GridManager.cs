@@ -16,6 +16,8 @@ public class GridManager : MonoBehaviour
     public GameObject backgroundPlaneObject;
     private List<Station> stations = new List<Station>();
     public bool menuOpen = false;
+    public TrainPopup trainPopup;
+
 
     void Start()
     {
@@ -57,6 +59,11 @@ public class GridManager : MonoBehaviour
     public List<Station> GetStations()
     {
         return stations;
+    }
+
+    public void OpenTrainPopup(Train train)
+    {
+        trainPopup.OpenTrainPopup(train);
     }
 
     public Station GetStationByName(string name)
