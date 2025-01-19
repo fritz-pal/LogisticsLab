@@ -14,7 +14,7 @@ public class GridManager : MonoBehaviour
     private Dictionary<Vector2Int, NodeGroup> nodeGroups = new Dictionary<Vector2Int, NodeGroup>();
     private List<Track> tracks = new List<Track>();
     public GameObject backgroundPlaneObject;
-
+    private List<Station> stations = new List<Station>();
 
     void Start()
     {
@@ -46,6 +46,11 @@ public class GridManager : MonoBehaviour
         }
         tracks.Add(track);
         CreateSpline(track.GetNodes().Item1.position, track.GetNodes().Item2.position, track.GetNodes().Item1.direction, track.GetNodes().Item2.direction, splineObject);
+    }
+
+    public void AddStation(Station station)
+    {
+        stations.Add(station);
     }
 
     public bool CreateNodeGroup(Vector2Int position, Direction alignment, Node[] nodes)

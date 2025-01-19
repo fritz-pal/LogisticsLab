@@ -5,7 +5,7 @@ public class NodeGroup
 {
     private bool hasSignal;
     private List<Node> nodes = new List<Node>();
-    private GameObject station;
+    private Station station;
     private Direction alignment;
     private Vector2Int position;
 
@@ -20,7 +20,7 @@ public class NodeGroup
         nodes.Add(node);
     }
 
-    public void SetStation(GameObject station)
+    public void SetStation(Station station)
     {
         this.station = station;
     }
@@ -29,6 +29,12 @@ public class NodeGroup
     {
         return station != null;
     }
+
+    public Station GetStation()
+    {
+        return station;
+    }
+    
     public void RemoveNode(Node node)
     {
         nodes.Remove(node);
