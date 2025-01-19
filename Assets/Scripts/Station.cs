@@ -6,8 +6,8 @@ public class Station
     private Vector2Int position;
     private NodeGroup nodeGroup;
     private string name;
-    private List<Track> tracks = new List<Track>();
     private GameObject stationObject;
+    
 
     public Station(Vector2Int position, NodeGroup nodeGroup, string name, GameObject stationObject)
     {
@@ -25,5 +25,10 @@ public class Station
     public void SetName(string name)
     {
         this.name = name;
+    }
+
+    public NodeGroup GetNodeGroup()
+    {
+        return nodeGroup;
     }
 }

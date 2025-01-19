@@ -31,6 +31,11 @@ public class NodeGroup
         this.station = station;
     }
 
+    public Vector2Int GetPosition()
+    {
+        return position;
+    }
+
     public bool HasStation()
     {
         return station != null;

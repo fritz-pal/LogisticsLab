@@ -6,16 +6,11 @@ public class StationPopup : MonoBehaviour
 {
     private Station station;
     public TMP_InputField stationName;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    public GameObject trainPrefab;
+
     void Start()
     {
         gameObject.SetActive(false);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     public void OpenStationPopup(Station station)
@@ -35,7 +30,10 @@ public class StationPopup : MonoBehaviour
 
     public void HandleAddTrain()
     {
-        Debug.Log("Add Train");
+        GameObject train = Instantiate(trainPrefab);
+        NodeGroup nodeGroup = station.GetNodeGroup();
+        train.GetComponentInChildren<Train>().nodeGroup = nodeGroup;
+        HandleClose();
     }
 
     public void HandleRename()
