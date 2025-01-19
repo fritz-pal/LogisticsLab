@@ -53,6 +53,11 @@ public class GridManager : MonoBehaviour
         stations.Add(station);
     }
 
+    public List<Station> GetStations()
+    {
+        return stations;
+    }
+
     public bool CreateNodeGroup(Vector2Int position, Direction alignment, Node[] nodes)
     {
         if (nodeGroups.ContainsKey(position))
