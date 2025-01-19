@@ -37,8 +37,8 @@ public class TrainPopup : MonoBehaviour
 
     public void HandlePausePlayTrain(GameObject button)
     {
-        train.ToggleIsMoving();
-        button.GetComponentInChildren<TextMeshProUGUI>().SetText(train.IsMoving() ? "Stop Train" : "Move Train");
+        train.ToggleIsRunning();
+        button.GetComponentInChildren<TextMeshProUGUI>().SetText(train.IsTrainRunning() ? "Stop Train" : "Move Train");
         //TODO test this
     }
 
