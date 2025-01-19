@@ -19,6 +19,7 @@ public class StationPopup : MonoBehaviour
         gameObject.SetActive(true);
         Time.timeScale = 0;
         stationName.text = station.GetName();
+        GridManager.Instance.menuOpen = true;
     }
 
     public void HandleClose()
@@ -26,6 +27,7 @@ public class StationPopup : MonoBehaviour
         gameObject.SetActive(false);
         Time.timeScale = 1;
         station = null;
+        GridManager.Instance.menuOpen = false;
     }
 
     public void HandleAddTrain()

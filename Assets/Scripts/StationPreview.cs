@@ -12,8 +12,9 @@ public class StationPreview : MonoBehaviour
 
     void Update()
     {
-        Vector3 mousePos = gridManager.GetMousePosition();
-        Vector2Int gridPos = new Vector2Int(Mathf.RoundToInt(mousePos.x), Mathf.RoundToInt(mousePos.y));
+        Vector3? mousePos = gridManager.GetMousePosition(false);
+        if (mousePos == null) return;
+        Vector2Int gridPos = new Vector2Int(Mathf.RoundToInt(mousePos.Value.x), Mathf.RoundToInt(mousePos.Value.y));
 
         NodeGroup nodeGroup = gridManager.GetNodeGroup(gridPos);
         Vector2Int? position = GetStationPosition(nodeGroup, gridPos);
@@ -27,7 +28,7 @@ public class StationPreview : MonoBehaviour
         else
         {
             transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
-            transform.position = new Vector3(mousePos.x, mousePos.y, 0);
+            transform.position = new Vector3(mousePos.Value.x, mousePos.Value.y, 0);
             transform.rotation = Quaternion.Euler(0, 0, 90);
         }
     }
@@ -52,8 +53,9 @@ public class StationPreview : MonoBehaviour
 
     public void CreateStation()
     {
-        Vector3 mousePos = gridManager.GetMousePosition();
-        Vector2Int gridPos = new Vector2Int(Mathf.RoundToInt(mousePos.x), Mathf.RoundToInt(mousePos.y));
+        Vector3? mousePos = gridManager.GetMousePosition(true);
+        if (mousePos == null) return;
+        Vector2Int gridPos = new Vector2Int(Mathf.RoundToInt(mousePos.Value.x), Mathf.RoundToInt(mousePos.Value.y));
 
         NodeGroup nodeGroup = gridManager.GetNodeGroup(gridPos);
         Vector2Int? position = GetStationPosition(nodeGroup, gridPos);
@@ -68,10 +70,11 @@ public class StationPreview : MonoBehaviour
         }
         else
         {
-            if (nodeGroup != null){
+            if (nodeGroup != null)
+            {
                 stationPopup.GetComponent<StationPopup>().OpenStationPopup(nodeGroup.GetStation());
             }
-            
+
             AudioSource.PlayClipAtPoint(errorSound, Camera.main.transform.position);
         }
     }
@@ -83,7 +86,7 @@ public class StationPreview : MonoBehaviour
 
     public void HandleLeftClick(InputAction.CallbackContext context)
     {
-        if(!enabled) return;
+        if (!enabled) return;
         if (context.ReadValue<float>() > 0)
         {
             CreateStation();

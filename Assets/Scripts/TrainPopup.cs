@@ -20,7 +20,7 @@ public class TrainPopup : MonoBehaviour
     }
     
     
-    public void OpenTrainPopup(/*TODO add train*/)
+    public void OpenTrainPopup(Train train)
     {
         //TODO train object
         gameObject.SetActive(true);
