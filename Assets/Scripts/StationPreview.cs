@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -7,6 +8,7 @@ public class StationPreview : MonoBehaviour
     public GameObject stationPrefab;
     public AudioClip errorSound;
     public AudioClip placeSound;
+    public GameObject stationPopup;
 
     void Update()
     {
@@ -58,13 +60,25 @@ public class StationPreview : MonoBehaviour
 
         if (nodeGroup != null && !nodeGroup.HasStation())
         {
-            nodeGroup.SetStation(Instantiate(stationPrefab, new Vector3(position.Value.x, position.Value.y, -0.2f), Quaternion.Euler((int)nodeGroup.GetAlignment() * -45, 90, -90)));
+            GameObject obj = Instantiate(stationPrefab, new Vector3(position.Value.x, position.Value.y, -0.2f), Quaternion.Euler((int)nodeGroup.GetAlignment() * -45, 90, -90));
+            Station station = new Station(position.Value, nodeGroup, RandomString(), obj);
+            GridManager.Instance.AddStation(station);
+            nodeGroup.SetStation(station);
             AudioSource.PlayClipAtPoint(placeSound, Camera.main.transform.position);
         }
         else
         {
+            if (nodeGroup != null){
+                stationPopup.GetComponent<StationPopup>().OpenStationPopup(nodeGroup.GetStation());
+            }
+            
             AudioSource.PlayClipAtPoint(errorSound, Camera.main.transform.position);
         }
+    }
+
+    private string RandomString()
+    {
+        return Guid.NewGuid().ToString("N")[..8];
     }
 
     public void HandleLeftClick(InputAction.CallbackContext context)
