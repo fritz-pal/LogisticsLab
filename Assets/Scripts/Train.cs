@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Train : MonoBehaviour
@@ -7,6 +8,7 @@ public class Train : MonoBehaviour
     public float speed = 1.0f;
     private bool isMoving = false;
     public TrainPopup trainPopup;
+    public List<Station> schedule;
 
 
     void Update()
@@ -23,5 +25,15 @@ public class Train : MonoBehaviour
     public void HandleClick()
     {
         trainPopup.OpenTrainPopup(this);
+    }
+
+    public void ToggleIsMoving()
+    {
+        isMoving = !isMoving;
+    }
+
+    public bool IsMoving()
+    {
+        return isMoving;
     }
 }
