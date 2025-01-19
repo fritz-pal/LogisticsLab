@@ -58,6 +58,6 @@ public class StationEntryDisplayScript : MonoBehaviour
 
     public void HandleSelectStationChange()
     {
-        trainPopUp.GetComponent<TrainPopup>().UpdateStation(stationSelector.GetComponent<TMP_Dropdown>().options[stationSelector.GetComponent<TMP_Dropdown>().value].text);
+        trainPopUp.GetComponent<TrainPopup>().UpdateStation(stationSelector.GetComponent<TMP_Dropdown>().options[stationSelector.GetComponent<TMP_Dropdown>().value].text, indexOfEntry);
     }
 }

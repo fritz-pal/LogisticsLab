@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class TrainPopup : MonoBehaviour
 {
-    //TODO add train object
     public GridManager gridManager;
+    private Train train;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -20,42 +21,41 @@ public class TrainPopup : MonoBehaviour
     }
     
     
-    public void OpenTrainPopup(/*TODO add train*/)
+    public void OpenTrainPopup(Train train)
     {
-        //TODO train object
+        this.train = train;
         gameObject.SetActive(true);
         Time.timeScale = 0;
-        //TODO fill out ui with data from Train: List of Stations from the schedule, Button if the train is stopped or not
     }
 
     public void HandleClose()
     {
         gameObject.SetActive(false);
         Time.timeScale = 1;
-        //TODO set train null
+        train = null;
     }
 
-    public void HandlePausePlayTrain()
+    public void HandlePausePlayTrain(GameObject button)
     {
-        //TODO
-        //probably update train object, -> attribute that says if its moving or not
-        //update the button to say stop or resume
+        train.ToggleIsMoving();
+        button.GetComponentInChildren<TextMeshProUGUI>().SetText(train.IsMoving() ? "Stop Train" : "Move Train");
+        //TODO test this
     }
 
 
     public void AddStation(string stationName)
     {
-        //TODO
+        train.schedule.Add(gridManager.GetStationByName(stationName));
     }
 
-    public void UpdateStation(string stationName)
+    public void UpdateStation(string stationName, int indexOfEntry)
     {
-        //TODO
+        train.schedule[indexOfEntry] = gridManager.GetStationByName(stationName);
     }
 
     public void RemoveLastStation()
     {
-        //TODO
+        train.schedule.RemoveAt(train.schedule.Count - 1);
     }
 
     public List<string> GetAvailableStationsToString()
@@ -70,13 +70,10 @@ public class TrainPopup : MonoBehaviour
     
     public int GetSelectedStation(int indexOfEntry)
     {
-        List<Station> schedule = new List<Station>(); //TODO get List of Stations from current train instead
         List<Station> totalStations = gridManager.GetStations();
-
         if (indexOfEntry >= totalStations.Count)
             throw new NullReferenceException();
-        
-        int indexInStationList = totalStations.IndexOf(schedule[indexOfEntry]);
+        int indexInStationList = totalStations.IndexOf(train.schedule[indexOfEntry]);
         return indexInStationList;
     }
     

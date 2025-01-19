@@ -58,6 +58,17 @@ public class GridManager : MonoBehaviour
         return stations;
     }
 
+    public Station GetStationByName(string name)
+    {
+        Station station = null;
+        foreach (Station s in stations)
+        {
+            if (s.GetName().Equals(name))
+                station = s;
+        }
+        return station;
+    }
+
     public bool CreateNodeGroup(Vector2Int position, Direction alignment, Node[] nodes)
     {
         if (nodeGroups.ContainsKey(position))
