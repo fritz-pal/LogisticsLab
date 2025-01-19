@@ -22,6 +22,11 @@ public class Train : MonoBehaviour
         }
     }
 
+    public void HandleClick()
+    {
+        GridManager.Instance.OpenTrainPopup(this);
+    }
+
     public void ToggleIsRunning()
     {
         trainIsRunning = !trainIsRunning;

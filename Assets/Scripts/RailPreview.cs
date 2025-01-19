@@ -26,8 +26,9 @@ public class RailPreview : MonoBehaviour
 
     void Update()
     {
-        Vector3 mousePos = gridManager.GetMousePosition();
-        Vector2Int gridPos = new Vector2Int(Mathf.RoundToInt(mousePos.x), Mathf.RoundToInt(mousePos.y));
+        Vector3? mousePos = gridManager.GetMousePosition(false);
+        if (mousePos == null) return;
+        Vector2Int gridPos = new Vector2Int(Mathf.RoundToInt(mousePos.Value.x), Mathf.RoundToInt(mousePos.Value.y));
 
         if (firstPosition != null)
         {

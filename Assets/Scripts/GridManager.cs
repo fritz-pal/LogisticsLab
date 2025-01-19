@@ -15,6 +15,9 @@ public class GridManager : MonoBehaviour
     private List<Track> tracks = new List<Track>();
     public GameObject backgroundPlaneObject;
     private List<Station> stations = new List<Station>();
+    public bool menuOpen = false;
+    public TrainPopup trainPopup;
+
 
     void Start()
     {
@@ -56,6 +59,11 @@ public class GridManager : MonoBehaviour
     public List<Station> GetStations()
     {
         return stations;
+    }
+
+    public void OpenTrainPopup(Train train)
+    {
+        trainPopup.OpenTrainPopup(train);
     }
 
     public Station GetStationByName(string name)
@@ -182,19 +190,24 @@ public class GridManager : MonoBehaviour
         return false;
     }
 
-    public Vector3 GetMousePosition()
+    public Vector3? GetMousePosition(bool isClick)
     {
+        if (menuOpen) return null;
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit hitInfo))
         {
             if (hitInfo.collider.gameObject == backgroundPlaneObject)
             {
                 Vector3 hitPoint = hitInfo.point;
-                // Debug.Log("Hit point " + hitPoint);
                 return hitPoint;
             }
+            if (hitInfo.collider.gameObject.CompareTag("Train") && isClick)
+            {
+                hitInfo.collider.gameObject.GetComponent<Train>().HandleClick();
+                return null;
+            }
         }
-        return Vector3.zero; //TODO maybe improve
+        return null;
     }
 
     public static Direction DirectionFromVector(Vector2Int vector)

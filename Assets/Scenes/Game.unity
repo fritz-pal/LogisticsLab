@@ -5832,6 +5832,8 @@ MonoBehaviour:
   railPrefab: {fileID: 2689209407455658938, guid: a2c1872ffcc85ae44aadf79641a02531, type: 3}
   splineObject: {fileID: 315939119}
   backgroundPlaneObject: {fileID: 631378374}
+  menuOpen: 0
+  trainPopup: {fileID: 501112946}
 --- !u!4 &499516734
 Transform:
   m_ObjectHideFlags: 0
