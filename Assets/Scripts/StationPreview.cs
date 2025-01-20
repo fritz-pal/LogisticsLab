@@ -63,7 +63,7 @@ public class StationPreview : MonoBehaviour
         if (nodeGroup != null && !nodeGroup.HasStation())
         {
             GameObject obj = Instantiate(stationPrefab, new Vector3(position.Value.x, position.Value.y, -0.2f), Quaternion.Euler((int)nodeGroup.GetAlignment() * -45, 90, -90));
-            Station station = new Station(position.Value, nodeGroup, RandomString(), obj);
+            Station station = new(position.Value, nodeGroup, RandomString(), obj);
             GridManager.Instance.AddStation(station);
             nodeGroup.SetStation(station);
             AudioSource.PlayClipAtPoint(placeSound, Camera.main.transform.position);

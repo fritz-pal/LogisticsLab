@@ -8,7 +8,7 @@ public class Station
     private string name;
     private GameObject stationObject;
     
-
+    
     public Station(Vector2Int position, NodeGroup nodeGroup, string name, GameObject stationObject)
     {
         this.position = position;
@@ -35,5 +35,8 @@ public class Station
     public void SwitchDirection()
     {
         nodeGroup.SetAlignment(GridManager.FlipDirection(nodeGroup.GetAlignment()));
+        Vector2Int vector = GridManager.VectorFromDirection((Direction)(((int)nodeGroup.GetAlignment() + 2) % 8));
+        position = nodeGroup.GetPosition() - vector;
+        stationObject.transform.SetPositionAndRotation(new Vector3(position.x, position.y, -0.2f), Quaternion.Euler((int)nodeGroup.GetAlignment() * -45, 90, -90));
     }
 }

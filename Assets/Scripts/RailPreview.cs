@@ -35,7 +35,7 @@ public class RailPreview : MonoBehaviour
             show = false;
             previewSpline.GetComponent<SplineInstantiate>().enabled = true;
             (float, float) angles = Track.GetAngles(firstDirection.Value, firstPosition.Value, gridPos, maxCurveAngle);
-            (float, float) angles2 = Track.GetAngles((Direction)(((int)firstDirection.Value + 4) % 8), firstPosition.Value, gridPos, maxCurveAngle);
+            (float, float) angles2 = Track.GetAngles(GridManager.FlipDirection(firstDirection.Value), firstPosition.Value, gridPos, maxCurveAngle);
             if (Mathf.Abs(angles.Item1) <= angles.Item2 && gridPos != firstPosition && Vector2Int.Distance(firstPosition.Value, gridPos) <= maxCurveDistance)
             {
                 float nearestAngle = Mathf.Round(angles.Item1 / 45) * 45;
@@ -60,7 +60,7 @@ public class RailPreview : MonoBehaviour
             }
             else if (Mathf.Abs(angles2.Item1) <= angles2.Item2 && gridPos != firstPosition && Vector2Int.Distance(firstPosition.Value, gridPos) <= maxCurveDistance)
             {
-                firstDirection = (Direction)(((int)firstDirection.Value + 4) % 8);
+                firstDirection = GridManager.FlipDirection(firstDirection.Value);
                 float nearestAngle = Mathf.Round(angles2.Item1 / 45) * 45;
                 if (nearestAngle == 0 && angles2.Item1 != 0)
                 {
@@ -144,7 +144,7 @@ public class RailPreview : MonoBehaviour
                     return;
                 }
                 Track track = new(firstPosition.Value, secondPosition, firstDirection.Value, (Direction)(((int)rotation + 4) % 8));
-                gridManager.addTrack(track);
+                gridManager.AddTrack(track);
                 Debug.Log(track.ToString());
                 AudioSource.PlayClipAtPoint(placeSound, Camera.main.transform.position);
 

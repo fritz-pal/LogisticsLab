@@ -40,7 +40,7 @@ public class GridManager : MonoBehaviour
         }
     }
 
-    public void addTrack(Track track)
+    public void AddTrack(Track track)
     {
         if (track == null)
         {
