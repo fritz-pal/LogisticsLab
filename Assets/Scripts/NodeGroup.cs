@@ -57,6 +57,11 @@ public class NodeGroup
         return alignment;
     }
 
+    public void SetAlignment(Direction alignment)
+    {
+        this.alignment = alignment;
+    }
+
     public List<Node> GetNodes()
     {
         return nodes;

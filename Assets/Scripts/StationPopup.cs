@@ -41,4 +41,9 @@ public class StationPopup : MonoBehaviour
     {
         station.SetName(stationName.text);
     }
+
+    public void HandleSwtichDirection()
+    {
+        station.SwitchDirection();
+    }
 }

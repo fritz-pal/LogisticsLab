@@ -276,4 +276,9 @@ public class GridManager : MonoBehaviour
             _ => new Vector2Int(0, 0),
         };
     }
+
+    public static Direction FlipDirection(Direction direction)
+    {
+        return (Direction)(((int)direction + 4) % 8);
+    }
 }

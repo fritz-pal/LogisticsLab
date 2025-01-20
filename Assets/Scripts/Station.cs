@@ -31,4 +31,9 @@ public class Station
     {
         return nodeGroup;
     }
+
+    public void SwitchDirection()
+    {
+        nodeGroup.SetAlignment(GridManager.FlipDirection(nodeGroup.GetAlignment()));
+    }
 }
