@@ -16,10 +16,6 @@ public class TrainPopup : MonoBehaviour
     void Start()
     {
         gameObject.SetActive(false);
-    }
-
-    void Awake()
-    {
         InitializeStationList();
         stationEntries[0].SetActive(true);
     }
@@ -49,6 +45,12 @@ public class TrainPopup : MonoBehaviour
         gameObject.SetActive(true);
         updatePausePlayBtnLabel();
         Time.timeScale = 0;
+        
+        //fill entries:
+        foreach (GameObject entry in stationEntries)
+        {
+            entry.GetComponent<StationEntryScript>().UpdateEntry();
+        }
     }
 
     public void HandleClose()
@@ -104,14 +106,17 @@ public class TrainPopup : MonoBehaviour
         return stationNames;
     }
     
+    /**
+     * Takes the index of the schedule entry (0-9)
+     * returns the index, that identifies the station from the list of ALL STATIONS (needed to select station from dropdown)
+     * returns -1 if the schedule entry is empty and shouldnt be displayed
+     */
     public int GetSelectedStation(int indexOfEntry)
     {
-        //TODO fix this
         List<Station> totalStations = gridManager.GetStations();
-        if (indexOfEntry >= totalStations.Count)
-            throw new NullReferenceException();
-        int indexInStationList = totalStations.IndexOf(train.schedule[indexOfEntry]);
-        return indexInStationList;
+        if (indexOfEntry >= train.schedule.Count)
+            return -1;
+        return totalStations.IndexOf(train.schedule[indexOfEntry]);
     }
     
     

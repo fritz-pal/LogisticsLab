@@ -23,21 +23,27 @@ public class StationEntryScript : MonoBehaviour
         deactivatedView.gameObject.SetActive(true);
         
         stationNo.GetComponent<TextMeshProUGUI>().SetText((indexOfEntry+1).ToString());
+    }
+
+    public void UpdateEntry()
+    {
         stationSelector.GetComponent<TMP_Dropdown>().ClearOptions();
         stationSelector.GetComponent<TMP_Dropdown>().AddOptions(trainPopUp.GetComponent<TrainPopup>().GetAvailableStationsToString());
         
-        
-        try
+        int selectedStation = trainPopUp.GetComponent<TrainPopup>().GetSelectedStation(indexOfEntry);
+
+        if (selectedStation >= 0)
         {
-            //TODO fix this
-            int selectedStation = trainPopUp.GetComponent<TrainPopup>().GetSelectedStation(indexOfEntry);
+            activatedView.gameObject.SetActive(true);
+            deactivatedView.gameObject.SetActive(false);
             stationSelector.GetComponent<TMP_Dropdown>().SetValueWithoutNotify(selectedStation);
-            gameObject.SetActive(true);
         }
-        catch (NullReferenceException)
+        else
         {
-            gameObject.SetActive(false);
+            activatedView.gameObject.SetActive(false);
+            deactivatedView.gameObject.SetActive(true);
         }
+        
         
     }
     
