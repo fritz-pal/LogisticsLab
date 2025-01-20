@@ -75,6 +75,7 @@ public class PathingScript
                 Debug.Log(pathNode.ToString());
                 pathNode = visitedNodes[pathNode].Item2;
             }
+            //TODO last node (start node) was missing when testing, make sure its included
             return path;
         }
     }
