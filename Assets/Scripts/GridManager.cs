@@ -17,6 +17,7 @@ public class GridManager : MonoBehaviour
     private List<Station> stations = new List<Station>();
     public bool menuOpen = false;
     public TrainPopup trainPopup;
+    public StationPopup stationPopup;
 
 
     void Start()
@@ -200,12 +201,33 @@ public class GridManager : MonoBehaviour
             if (hitInfo.collider.gameObject == backgroundPlaneObject)
             {
                 Vector3 hitPoint = hitInfo.point;
+                Station hitStation = HitStation(hitPoint);
+                if (hitStation != null)
+                {
+                    if (isClick)
+                        stationPopup.OpenStationPopup(hitStation);
+                    return null;
+                }
+
                 return hitPoint;
             }
             if (hitInfo.collider.gameObject.CompareTag("Train") && isClick)
             {
                 hitInfo.collider.gameObject.GetComponent<Train>().HandleClick();
                 return null;
+            }
+        }
+        return null;
+    }
+
+    public Station HitStation(Vector3 hitPoint)
+    {
+        Vector2Int hitPos = new Vector2Int(Mathf.RoundToInt(hitPoint.x), Mathf.RoundToInt(hitPoint.y));
+        foreach (Station station in stations)
+        {
+            if (Vector2Int.Distance(hitPos, station.GetPosition()) < 0.8f)
+            {
+                return station;
             }
         }
         return null;
@@ -259,6 +281,12 @@ public class GridManager : MonoBehaviour
         double y = Mathf.Sin(radians);
 
         return new Vector2Int(Mathf.RoundToInt((float)x), Mathf.RoundToInt((float)y));
+    }
+
+    public void CloseAllPopups()
+    {
+        trainPopup.HandleClose();
+        stationPopup.HandleClose();
     }
 
     public static Vector2Int VectorFromDirection(Direction direction)

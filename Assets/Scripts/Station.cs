@@ -32,6 +32,11 @@ public class Station
         return nodeGroup;
     }
 
+    public Vector2Int GetPosition()
+    {
+        return position;
+    }
+
     public void SwitchDirection()
     {
         nodeGroup.SetAlignment(GridManager.FlipDirection(nodeGroup.GetAlignment()));

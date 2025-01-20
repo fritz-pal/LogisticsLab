@@ -8,28 +8,27 @@ public class StationPreview : MonoBehaviour
     public GameObject stationPrefab;
     public AudioClip errorSound;
     public AudioClip placeSound;
-    public GameObject stationPopup;
+    public StationPopup stationPopup;
 
     void Update()
     {
         Vector3? mousePos = gridManager.GetMousePosition(false);
         if (mousePos == null) return;
-        Vector2Int gridPos = new Vector2Int(Mathf.RoundToInt(mousePos.Value.x), Mathf.RoundToInt(mousePos.Value.y));
+        Vector2Int gridPos = new(Mathf.RoundToInt(mousePos.Value.x), Mathf.RoundToInt(mousePos.Value.y));
 
         NodeGroup nodeGroup = gridManager.GetNodeGroup(gridPos);
         Vector2Int? position = GetStationPosition(nodeGroup, gridPos);
 
+        gameObject.SetActive(!GridManager.Instance.menuOpen);
         if (position != null)
         {
             transform.localScale = new Vector3(1, 1, 1);
-            transform.position = new Vector3(position.Value.x, position.Value.y, 0);
-            transform.rotation = Quaternion.Euler(0, 0, (int)nodeGroup.GetAlignment() * 45);
+            transform.SetPositionAndRotation(new Vector3(position.Value.x, position.Value.y, 0), Quaternion.Euler(0, 0, (int)nodeGroup.GetAlignment() * 45));
         }
         else
         {
             transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
-            transform.position = new Vector3(mousePos.Value.x, mousePos.Value.y, 0);
-            transform.rotation = Quaternion.Euler(0, 0, 90);
+            transform.SetPositionAndRotation(new Vector3(mousePos.Value.x, mousePos.Value.y, 0), Quaternion.Euler(0, 0, 90));
         }
     }
 
@@ -72,9 +71,8 @@ public class StationPreview : MonoBehaviour
         {
             if (nodeGroup != null)
             {
-                stationPopup.GetComponent<StationPopup>().OpenStationPopup(nodeGroup.GetStation());
+                stationPopup.OpenStationPopup(nodeGroup.GetStation());
             }
-
             AudioSource.PlayClipAtPoint(errorSound, Camera.main.transform.position);
         }
     }

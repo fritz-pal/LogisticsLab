@@ -267,6 +267,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 499516733}
+        m_TargetAssemblyTypeName: GridManager, Assembly-CSharp
+        m_MethodName: CloseAllPopups
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 15cef263-9014-4fd5-94d9-4e4a6234a6ef
     m_ActionName: 'UI/Cancel[/Keyboard/escape]'
   - m_PersistentCalls:
@@ -2726,6 +2738,7 @@ MonoBehaviour:
   backgroundPlaneObject: {fileID: 631378374}
   menuOpen: 0
   trainPopup: {fileID: 501112946}
+  stationPopup: {fileID: 1336654764}
 --- !u!4 &499516734
 Transform:
   m_ObjectHideFlags: 0
@@ -4264,7 +4277,7 @@ MonoBehaviour:
   stationPrefab: {fileID: 3399837190220398239, guid: 7945b3573123f1a4aa4a59c61fb6da02, type: 3}
   errorSound: {fileID: 8300000, guid: bbcc2b16e4d958b458e8367a61779261, type: 3}
   placeSound: {fileID: 8300000, guid: 6e32227b59c02d847815d8570d39be63, type: 3}
-  stationPopup: {fileID: 1336654760}
+  stationPopup: {fileID: 1336654764}
 --- !u!4 &769266325
 Transform:
   m_ObjectHideFlags: 0
