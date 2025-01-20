@@ -67,7 +67,7 @@ public class TrainPopup : MonoBehaviour
 
     public void StopTrain()
     {
-        train.trainIsRunning = false;
+        train.isRunning = false;
     }
 
     public void HandleClose()
