@@ -7,6 +7,7 @@ public class Node
     private Node sibling;
     public Vector2Int position;
     public Direction direction;
+    private NodeGroup nodeGroup;
 
     public Node(Vector2Int position, Direction direction)
     {
@@ -27,6 +28,16 @@ public class Node
     public void SetSibling(Node node)
     {
         sibling = node;
+    }
+
+    public void SetNodeGroup(NodeGroup nodeGroup)
+    {
+        this.nodeGroup = nodeGroup;
+    }
+
+    public NodeGroup GetNodeGroup()
+    {
+        return nodeGroup;
     }
 
     public List<Node> GetTransitions()

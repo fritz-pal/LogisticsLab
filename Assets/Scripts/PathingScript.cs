@@ -1,7 +1,6 @@
 using System.Collections.Generic;
-using UnityEngine;
 
-public class PathingScript : MonoBehaviour
+public class PathingScript
 {
     private Dictionary<Node, (int, Node)> visitedNodes;
     private int lowestCost;
@@ -13,7 +12,7 @@ public class PathingScript : MonoBehaviour
      * returns a list of nodes, that represent the shortest path from a given start node group to a destination node group
      * (takes into account direction)
      */
-    public List<Node> GetPathNodes(NodeGroup startNodeGroup, Direction trainDirection, NodeGroup endNodeGroup) //TODO make this shit thread safe
+    private List<Node> GetPathNodes(NodeGroup startNodeGroup, Direction trainDirection, NodeGroup endNodeGroup) //TODO make this shit thread safe
     {
         lock (this) //lock instance, so simultaneous method calls can not mess with the data fields
         {
@@ -57,6 +56,18 @@ public class PathingScript : MonoBehaviour
             }
             return path;
         }
+    }
+
+    public List<NodeGroup> GetPath(NodeGroup start, Direction trainDirection, NodeGroup end)
+    {
+        List<Node> pathNodes = GetPathNodes(start, trainDirection, end);
+        List<NodeGroup> path = new List<NodeGroup>();
+        foreach (Node n in pathNodes)
+        {
+            if (path.Count == 0 || (path.Count > 0 && path[0] != n.GetNodeGroup()))
+            path.Insert(0, n.GetNodeGroup());
+        }
+        return path;
     }
 
     public Direction GetDestinationDirection()

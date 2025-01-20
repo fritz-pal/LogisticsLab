@@ -32,7 +32,8 @@ public class StationPopup : MonoBehaviour
     {
         GameObject train = Instantiate(trainPrefab);
         NodeGroup nodeGroup = station.GetNodeGroup();
-        train.GetComponentInChildren<Train>().nodeGroup = nodeGroup;
+        train.GetComponentInChildren<Train>().currentStation = station;
+        train.GetComponentInChildren<Train>().direction = nodeGroup.GetAlignment();
         HandleClose();
     }
 
