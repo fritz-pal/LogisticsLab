@@ -44,19 +44,36 @@ public class TrainPopup : MonoBehaviour
         this.train = train;
         gameObject.SetActive(true);
         updatePausePlayBtnLabel();
-        Time.timeScale = 0;
+        gridManager.menuOpen = true;
         
         //fill entries:
+        int i = 0;
         foreach (GameObject entry in stationEntries)
         {
+            entry.SetActive(false);
             entry.GetComponent<StationEntryScript>().UpdateEntry();
+            if (i == 0 || i <= train.schedule.Count)
+                entry.SetActive(true);
+            else
+                entry.SetActive(false);
+            i++;
         }
+    }
+
+    public void SetEntryActive(int index, bool active)
+    {
+        stationEntries[index].SetActive(active);
+    }
+
+    public void StopTrain()
+    {
+        train.trainIsRunning = false;
     }
 
     public void HandleClose()
     {
         gameObject.SetActive(false);
-        Time.timeScale = 1;
+        gridManager.menuOpen = false;
         train = null;
     }
 
@@ -79,21 +96,21 @@ public class TrainPopup : MonoBehaviour
 
     public void AddStation(string stationName)
     {
-        Debug.Log(stationName);
-        Debug.Log(train);
-        Debug.Log(train.schedule);
         train.schedule.Add(gridManager.GetStationByName(stationName));
+        StopTrain();
     }
 
     public void UpdateStation(string stationName, int indexOfEntry)
     {
         train.schedule[indexOfEntry] = gridManager.GetStationByName(stationName);
+        StopTrain();
     }
 
     public void RemoveLastStation()
     {
         if (train.schedule.Count > 0)
             train.schedule.RemoveAt(train.schedule.Count - 1);
+        StopTrain();
     }
 
     public List<string> GetAvailableStationsToString()

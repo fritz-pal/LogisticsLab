@@ -55,7 +55,8 @@ public class StationEntryScript : MonoBehaviour
         
         trainPopUp.GetComponent<TrainPopup>().AddStation(stationSelector.GetComponent<TMP_Dropdown>().options[stationSelector.GetComponent<TMP_Dropdown>().value].text);
         
-        //TODO handle adding or removing next/previsous entry
+        if (indexOfEntry < 9)
+            trainPopUp.GetComponent<TrainPopup>().SetEntryActive(indexOfEntry+1,true);
     }
 
     public void HandleRemoveStationButton()
@@ -65,11 +66,16 @@ public class StationEntryScript : MonoBehaviour
         
         trainPopUp.GetComponent<TrainPopup>().RemoveLastStation();
         
-        //TODO handle adding or removing next/previsous entry
+        if (indexOfEntry < 9)
+            trainPopUp.GetComponent<TrainPopup>().SetEntryActive(indexOfEntry+1,false);
+        
+        //TODO
+        //if not the last entry is deleted, then what????
     }
 
     public void HandleSelectStationChange()
     {
         trainPopUp.GetComponent<TrainPopup>().UpdateStation(stationSelector.GetComponent<TMP_Dropdown>().options[stationSelector.GetComponent<TMP_Dropdown>().value].text, indexOfEntry);
+        
     }
 }
