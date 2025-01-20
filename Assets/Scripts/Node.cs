@@ -8,6 +8,7 @@ public class Node
     public Vector2Int position;
     public Direction direction;
     private NodeGroup nodeGroup;
+    private Track track;
 
     public Node(Vector2Int position, Direction direction)
     {
@@ -18,6 +19,16 @@ public class Node
     public void AddTransition(Node node)
     {
         transitions.Add(node);
+    }
+
+    public void SetTrack(Track track)
+    {
+        this.track = track;
+    }
+
+    public Track GetTrack()
+    {
+        return track;
     }
 
     public void RemoveTransition(Node node)

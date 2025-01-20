@@ -13,7 +13,9 @@ public class Track
         // add transitions
         nodes = (new(start, startDirection), new(end, endDirection));
         nodes.Item1.SetSibling(nodes.Item2);
+        nodes.Item1.SetTrack(this);
         nodes.Item2.SetSibling(nodes.Item1);
+        nodes.Item2.SetTrack(this);
         GridManager.Instance.CreateNodeGroup(start, startDirection, new Node[] { nodes.Item1 });
         GridManager.Instance.CreateNodeGroup(end, endDirection, new Node[] { nodes.Item2 });
     }
