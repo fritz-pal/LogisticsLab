@@ -143,7 +143,7 @@ public class RailPreview : MonoBehaviour
                     HandleError();
                     return;
                 }
-                Track track = new Track(firstPosition.Value, secondPosition, firstDirection.Value, rotation);
+                Track track = new(firstPosition.Value, secondPosition, firstDirection.Value, (Direction)(((int)rotation + 4) % 8));
                 gridManager.addTrack(track);
                 Debug.Log(track.ToString());
                 AudioSource.PlayClipAtPoint(placeSound, Camera.main.transform.position);

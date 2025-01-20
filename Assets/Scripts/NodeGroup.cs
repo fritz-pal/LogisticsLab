@@ -61,4 +61,9 @@ public class NodeGroup
     {
         return nodes;
     }
+
+    public override string ToString()
+    {
+        return "NodeGroup: " + position + " " + alignment + " Nodes: " + nodes.Count;
+    }
 }

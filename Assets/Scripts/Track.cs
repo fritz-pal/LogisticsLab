@@ -39,8 +39,8 @@ public class Track
         return (angleBetween, maxAngle);
     }
 
-    public string ToString()
+    public override string ToString()
     {
-        return nodes.Item1.position + nodes.Item1.direction.ToString() + " to " + nodes.Item2.position + nodes.Item2.direction.ToString();
+        return "Track: " + nodes.Item1.position + " " + nodes.Item1.direction + " to " + nodes.Item2.position + " " + nodes.Item2.direction;
     }
 }

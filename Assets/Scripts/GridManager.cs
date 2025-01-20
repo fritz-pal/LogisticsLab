@@ -82,7 +82,7 @@ public class GridManager : MonoBehaviour
     {
         if (nodeGroups.ContainsKey(position))
         {
-            if (nodeGroups[position].GetAlignment() == alignment)
+            if (nodeGroups[position].GetAlignment() == alignment || (((int)nodeGroups[position].GetAlignment() + 4) % 8) == (int)alignment)
             {
                 foreach (Node node in nodes)
                 {
@@ -115,7 +115,7 @@ public class GridManager : MonoBehaviour
         Spline spline = new();
 
         Vector3 startTangent = new Vector3(startVector.x, 0, startVector.y) * bezierTangentLength;
-        Vector3 endTangent = new Vector3(endVector.x, 0, endVector.y) * -bezierTangentLength;
+        Vector3 endTangent = new Vector3(endVector.x, 0, endVector.y) * bezierTangentLength;
 
         Quaternion knotRotation = Quaternion.LookRotation(Vector3.up);
         spline.Add(new BezierKnot(new Vector3(start.x, start.y, 0), startTangent, startTangent, knotRotation));

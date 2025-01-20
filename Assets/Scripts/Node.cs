@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Node
 {
-    private List<Node> transitions;
+    private List<Node> transitions = new();
     private Node sibling;
     public Vector2Int position;
     public Direction direction;
@@ -48,5 +48,10 @@ public class Node
     public Node GetSibling()
     {
         return sibling;
+    }
+
+    public override string ToString()
+    {
+        return "Node: " + position + " " + direction;
     }
 }

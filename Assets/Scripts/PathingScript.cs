@@ -26,10 +26,11 @@ public class PathingScript
             destinationDirection = Direction.NONE;
 
             //get node with which we start, from node group:
-            Debug.Log("train dir:" + trainDirection);
+            Debug.Log("Train direction: " + trainDirection);
+            Debug.Log(startNodeGroup.ToString());
             foreach (Node n in startNodeGroup.GetNodes())
             {
-                Debug.Log("node dir:" + n.direction);
+                Debug.Log("Direction: " + n.direction);
                 if ((int)n.direction == ((int)trainDirection + 4) % 8)
                 {
                     startNode = n;
