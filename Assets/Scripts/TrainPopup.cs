@@ -68,7 +68,7 @@ public class TrainPopup : MonoBehaviour
 
     private void updatePausePlayBtnLabel()
     {
-        pausePlayBtnLabel.GetComponent<TextMeshProUGUI>().SetText(train.trainIsRunning ? "Stop Train" : "Run Train");
+        pausePlayBtnLabel.GetComponent<TextMeshProUGUI>().SetText(train.isRunning ? "Stop Train" : "Run Train");
     }
 
     public void HandleDeleteTrain()
