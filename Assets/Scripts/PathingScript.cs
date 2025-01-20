@@ -38,10 +38,11 @@ public class PathingScript
                 }
             }
             
-            Debug.Assert(startNode != null, "Error: No start node set");
+            //Debug.Assert(startNode != null, "Error: No start node set");
+            Debug.Log("Start Node: " + startNode.ToString());
 
             //call our recursive method
-            Debug.Log("call recursive method");
+            Debug.Log("start recursive method");
             GoToNextNode(startNode, 0);
             Debug.Log("recursive method ended");
 
@@ -67,9 +68,11 @@ public class PathingScript
             //and this will then create our path
             List<Node> path = new List<Node>();
             Node pathNode = finalDestinationNode;
+            Debug.Log("Path Nodes:");
             while (pathNode != startNode)
             {
                 path.Add(pathNode);
+                Debug.Log(pathNode.ToString());
                 pathNode = visitedNodes[pathNode].Item2;
             }
             return path;
@@ -99,11 +102,16 @@ public class PathingScript
     {
         if (node == null)
             return;
+        Debug.Log("Current Node: " + node.ToString() + ", Current Cost: " + cost);
+        
         //check if done/end etc.
+        //TODO
+        /*
         if (cost < lowestCost)
             lowestCost = cost;
         else
             return;
+        */
 
         foreach (Node n in destinationNodes)
             if (n == node)
@@ -111,6 +119,7 @@ public class PathingScript
 
         foreach (Node transitionNode in node.GetTransitions())
         {
+            Debug.Log("Looking at Transition Node: " + transitionNode.ToString());
             Node nextNode = transitionNode.GetSibling();
             Debug.Assert(nextNode != null, "Sibling of node is null");
 
@@ -123,11 +132,13 @@ public class PathingScript
                     //TODO update entry, instead of remove and add
                     visitedNodes.Remove(nextNode);
                     visitedNodes.Add(nextNode, (cost + 1, node));
+                    Debug.Log("recursive methodcall");
                     GoToNextNode(nextNode, cost + 1);
                 }
                 //if cost of current path is higher or equal, then just abort
                 else
                 {
+                    Debug.Log("return from recursive method");
                     return;
                 }
             }
@@ -135,6 +146,7 @@ public class PathingScript
             {
                 //if it does not exist just create a new entry
                 visitedNodes.Add(nextNode, (cost + 1, node));
+                Debug.Log("recursive methodcall");
                 GoToNextNode(nextNode, cost + 1);
             }
         }

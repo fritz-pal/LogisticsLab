@@ -37,7 +37,8 @@ public class Train : MonoBehaviour
                         isMoving = true;
                         CalculatePath(schedule[index].GetNodeGroup());
                         currentStation = schedule[index];
-                        splineAnimate.Play();
+                        //TODO
+                        //splineAnimate.Play();
                     }
                 }
             }
@@ -52,6 +53,10 @@ public class Train : MonoBehaviour
         //splineAnimate = new SplineAnimate();
         //splineAnimate.Container =
         Debug.Log("Path calculated: " + path);
+        foreach (NodeGroup p in path)
+        {
+            Debug.Log(p.ToString());
+        }
     }
 
     public void HandleClick()
