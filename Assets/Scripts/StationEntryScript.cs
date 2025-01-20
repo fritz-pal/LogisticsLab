@@ -12,11 +12,6 @@ public class StationEntryScript : MonoBehaviour
     public GameObject stationNo;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    //void Start(int indexOfEntry)
-    //{
-    //    Awake(indexOfEntry);
-    //}
-    
     void Start()
     {
         activatedView.gameObject.SetActive(false);
