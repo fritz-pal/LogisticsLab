@@ -65,7 +65,7 @@ public class StationEntryScript : MonoBehaviour
             trainPopUp.GetComponent<TrainPopup>().SetEntryActive(indexOfEntry+1,false);
         
         //TODO
-        //if not the last entry is deleted, then what????
+        //if not the last entry is deleted, then what???? - fix this if still time!
     }
 
     public void HandleSelectStationChange()

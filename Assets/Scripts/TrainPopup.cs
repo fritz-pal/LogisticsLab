@@ -20,12 +20,6 @@ public class TrainPopup : MonoBehaviour
         stationEntries[0].SetActive(true);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     private void InitializeStationList()
     {
         stationEntries = new List<GameObject>();
