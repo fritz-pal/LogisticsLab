@@ -165,6 +165,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be7e22a7d642f2540a55f0f12ac7c2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gridManager: {fileID: 499516732}
   zoomSpeed: 0.2
   maxZoom: 20
   minZoom: 1
@@ -311,6 +312,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 661359}
+        m_TargetAssemblyTypeName: Movement, Assembly-CSharp
+        m_MethodName: HandleLeftClickInMouseMode
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 3c7022bf-7922-4f7c-a998-c437916075ad
     m_ActionName: 'UI/Click[/Mouse/leftButton]'
   - m_PersistentCalls:
@@ -389,6 +402,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 34b70c2d-d66b-420d-a365-dc097ab0aab9
     m_ActionName: 'UI/SelectStation[/Keyboard/2]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 661359}
+        m_TargetAssemblyTypeName: Movement, Assembly-CSharp
+        m_MethodName: HandleMouseModeSelect
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: acd42f76-c49c-46e8-bd4e-372facbe38da
+    m_ActionName: 'UI/SelectMouseMode[/Keyboard/0]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Keyboard&Mouse
   m_DefaultActionMap: UI

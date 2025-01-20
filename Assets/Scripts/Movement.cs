@@ -4,6 +4,7 @@ using UnityEngine.InputSystem.LowLevel;
 
 public class Movement : MonoBehaviour
 {
+    public GameObject gridManager;
     public float zoomSpeed = 0.2f;
     public int maxZoom = 10;
     public int minZoom = 1;
@@ -26,6 +27,7 @@ public class Movement : MonoBehaviour
         mainCamera.orthographicSize = Mathf.Lerp(mainCamera.orthographicSize, zoomLevel, Time.deltaTime * 10);
         Vector3 move = new Vector3(moveDirection.x, moveDirection.y, 0);
         transform.position += move * movementSpeed * Time.deltaTime * zoomLevel;
+        
     }
 
     public void HandleScrollWheel(InputAction.CallbackContext context)
@@ -58,6 +60,23 @@ public class Movement : MonoBehaviour
             railPreview.SetActive(false);
             stationPreview.SetActive(true);
             stationPreview.GetComponent<StationPreview>().enabled = true;
+        }
+    }
+
+    public void HandleMouseModeSelect(InputAction.CallbackContext context)
+    {
+        if (context.ReadValue<float>() > 0)
+        {
+            railPreview.SetActive(false);
+            stationPreview.SetActive(false);
+        }
+    }
+
+    public void HandleLeftClickInMouseMode(InputAction.CallbackContext context)
+    {
+        if (!railPreview.activeSelf && !stationPreview.activeSelf)
+        {
+            gridManager.GetComponent<GridManager>().GetMousePosition(true);
         }
     }
 }
