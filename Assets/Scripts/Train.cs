@@ -7,8 +7,8 @@ public class Train : MonoBehaviour
     public NodeGroup nodeGroup;
     public float speed = 1.0f;
     private bool isMoving = false;
-    private bool trainIsRunning = false;
-    public List<Station> schedule;
+    public bool trainIsRunning = false;
+    public List<Station> schedule = new();
 
 
     void Update()
@@ -30,10 +30,5 @@ public class Train : MonoBehaviour
     public void ToggleIsRunning()
     {
         trainIsRunning = !trainIsRunning;
-    }
-
-    public bool IsTrainRunning()
-    {
-        return trainIsRunning;
     }
 }

@@ -74,6 +74,7 @@ public class GridManager : MonoBehaviour
             if (s.GetName().Equals(name))
                 station = s;
         }
+        Debug.Log(station.GetName());
         return station;
     }
 

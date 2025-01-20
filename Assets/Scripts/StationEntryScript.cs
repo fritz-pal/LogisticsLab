@@ -2,7 +2,7 @@ using System;
 using TMPro;
 using UnityEngine;
 
-public class StationEntryDisplayScript : MonoBehaviour
+public class StationEntryScript : MonoBehaviour
 {
     public int indexOfEntry;
     public GameObject trainPopUp;
@@ -12,6 +12,11 @@ public class StationEntryDisplayScript : MonoBehaviour
     public GameObject stationNo;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
+    //void Start(int indexOfEntry)
+    //{
+    //    Awake(indexOfEntry);
+    //}
+    
     void Start()
     {
         activatedView.gameObject.SetActive(false);
@@ -24,6 +29,7 @@ public class StationEntryDisplayScript : MonoBehaviour
         
         try
         {
+            //TODO fix this
             int selectedStation = trainPopUp.GetComponent<TrainPopup>().GetSelectedStation(indexOfEntry);
             stationSelector.GetComponent<TMP_Dropdown>().SetValueWithoutNotify(selectedStation);
             gameObject.SetActive(true);

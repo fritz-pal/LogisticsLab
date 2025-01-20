@@ -648,7 +648,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &40050020
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5291,7 +5291,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 386363875}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 501112946}
+        m_TargetAssemblyTypeName: TrainPopup, Assembly-CSharp
+        m_MethodName: HandleDeleteTrain
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &386363875
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5534,7 +5546,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &438531821
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5944,6 +5956,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridManager: {fileID: 499516733}
+  stationList: {fileID: 2086651674}
+  stationEntry: {fileID: 764593182}
+  pausePlayBtnLabel: {fileID: 316899541}
 --- !u!1 &505592720
 GameObject:
   m_ObjectHideFlags: 0
@@ -6531,7 +6546,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &561581257
 RectTransform:
   m_ObjectHideFlags: 0
@@ -11206,7 +11221,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 875673784}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 501112946}
+        m_TargetAssemblyTypeName: TrainPopup, Assembly-CSharp
+        m_MethodName: HandlePausePlayTrain
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &875673784
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11932,7 +11959,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &996303067
 RectTransform:
   m_ObjectHideFlags: 0
@@ -14009,7 +14036,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1217698721
 RectTransform:
   m_ObjectHideFlags: 0
@@ -15149,7 +15176,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1304118240
 RectTransform:
   m_ObjectHideFlags: 0
@@ -17633,7 +17660,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1457646315
 RectTransform:
   m_ObjectHideFlags: 0
@@ -21371,7 +21398,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1749807975
 RectTransform:
   m_ObjectHideFlags: 0
@@ -21775,7 +21802,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1784399419
 RectTransform:
   m_ObjectHideFlags: 0
@@ -26642,7 +26669,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2086651675
 RectTransform:
   m_ObjectHideFlags: 0
