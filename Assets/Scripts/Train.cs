@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TMPro;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Splines;
@@ -17,10 +18,12 @@ public class Train : MonoBehaviour
     private PathingScript pathingScript;
     private Vector3 velocity;
     private float timeAtLastMove = 0.0f;
+    public TextMeshProUGUI errorText;
 
     void Start()
     {
         pathingScript = new PathingScript();
+        errorText.text = "";
     }
 
     void Update()
@@ -42,10 +45,12 @@ public class Train : MonoBehaviour
                         {
                             currentStation = schedule[index];
                             isMoving = true;
+                            errorText.text = "";
                         }
                         else
                         {
                             Debug.Log("No path to destination: " + schedule[index].GetName());
+                            errorText.text = "No path to destination: " + schedule[index].GetName();
                             timeAtLastMove = Time.time;
                         }
                     }
@@ -127,11 +132,13 @@ public class Train : MonoBehaviour
         if (schedule.Count < 2) 
         {
             Debug.Log("Not enough stations in schedule");
+            errorText.text = "Not enough stations in schedule";
             return;
         }
         if (schedule.Count != new HashSet<Station>(schedule).Count)
         {
-            Debug.Log("there are duplicate stations in the schedule");
+            Debug.Log("There are duplicate stations in the schedule");
+            errorText.text = "There are duplicate stations in the schedule";
             return;
         }
         currentStation ??= schedule[0];
