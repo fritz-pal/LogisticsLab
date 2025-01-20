@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Random = System.Random;
 
 public class StationPreview : MonoBehaviour
 {
@@ -62,7 +64,7 @@ public class StationPreview : MonoBehaviour
         if (nodeGroup != null && !nodeGroup.HasStation())
         {
             GameObject obj = Instantiate(stationPrefab, new Vector3(position.Value.x, position.Value.y, -0.2f), Quaternion.Euler((int)nodeGroup.GetAlignment() * -45, 90, -90));
-            Station station = new(position.Value, nodeGroup, RandomString(), obj);
+            Station station = new(position.Value, nodeGroup, GetRandomStationName(), obj);
             GridManager.Instance.AddStation(station);
             nodeGroup.SetStation(station);
             AudioSource.PlayClipAtPoint(placeSound, Camera.main.transform.position);
@@ -90,4 +92,16 @@ public class StationPreview : MonoBehaviour
             CreateStation();
         }
     }
+
+    private string GetRandomStationName()
+    {
+        string randomStationName = StationNamesLoader.GetRandomName();
+        foreach (Station s in gridManager.GetStations())
+        {
+            if (s.GetName() == randomStationName)
+                return GetRandomStationName();
+        }
+        return randomStationName;
+    }
+    
 }

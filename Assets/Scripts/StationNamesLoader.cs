@@ -1,5 +1,11 @@
+using System;
+using System.Collections.Generic;
+
+public class StationNamesLoader
 {
-    "Station Names": [
+    
+    private static List<string> strings = new(new[]
+    {
         "Frankfurt",
         "Heilbronn",
         "Hochschule Heilbronn",
@@ -68,5 +74,11 @@
         "Caracas",
         "São Paulo",
         "Lagos"
-    ]
+    });
+
+    public static string GetRandomName()
+    {
+        Random random = new();
+        return strings[random.Next(strings.Count)];
+    }
 }
