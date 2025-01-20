@@ -17,29 +17,36 @@ public class PathingScript
     {
         lock (this) //lock instance, so simultaneous method calls can not mess with the data fields
         {
+            
             visitedNodes = new Dictionary<Node, (int, Node)>();
             lowestCost = int.MaxValue;
             startNode = null;
             destinationNodes = endNodeGroup.GetNodes();
+            Debug.Assert(destinationNodes.Count > 0, "Error: No destination nodes set");
             destinationDirection = Direction.NONE;
 
             //get node with which we start, from node group:
+            Debug.Log("train dir:" + trainDirection);
             foreach (Node n in startNodeGroup.GetNodes())
             {
+                Debug.Log("node dir:" + n.direction);
                 if ((int)n.direction == ((int)trainDirection + 4) % 8)
                 {
                     startNode = n;
                     break;
                 }
             }
+            
+            Debug.Assert(startNode != null, "Error: No start node set");
 
             //call our recursive method
+            Debug.Log("call recursive method");
             GoToNextNode(startNode, 0);
+            Debug.Log("recursive method ended");
 
             //search dict for all destination nodes and pick the one with the lowest cost 
             int lowestDestinationCost = int.MaxValue;
             Node finalDestinationNode = null;
-            Debug.Assert(destinationNodes.Count > 0, "No destination nodes found");
             foreach (Node n in destinationNodes)
             {
                 if (visitedNodes.ContainsKey(n))
@@ -47,14 +54,18 @@ public class PathingScript
                     {
                         lowestDestinationCost = visitedNodes[n].Item1;
                         finalDestinationNode = n;
+                        destinationDirection = finalDestinationNode.direction;
                     }
             }
-            Debug.Assert(finalDestinationNode != null, "No final destination node found");
+            
+            //TODO make sure case of no path found is handled correctly - what does the recoursive method do in that case???
+            if (finalDestinationNode == null)
+                return null; //return null if no destination is found
+            
             //once recursive method finished, just go from the destination node back to the start using the previous node entry,
             //and this will then create our path
             List<Node> path = new List<Node>();
             Node pathNode = finalDestinationNode;
-            destinationDirection = finalDestinationNode.direction;
             while (pathNode != startNode)
             {
                 path.Add(pathNode);
@@ -67,6 +78,8 @@ public class PathingScript
     public List<NodeGroup> GetPath(NodeGroup start, Direction trainDirection, NodeGroup end)
     {
         List<Node> pathNodes = GetPathNodes(start, trainDirection, end);
+        if (pathNodes == null)
+            return null;
         List<NodeGroup> path = new List<NodeGroup>();
         foreach (Node n in pathNodes)
         {

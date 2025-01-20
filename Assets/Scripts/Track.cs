@@ -38,4 +38,9 @@ public class Track
         // Debug.Log("Angle between " + angleBetween + " max angle " + maxAngle);
         return (angleBetween, maxAngle);
     }
+
+    public string ToString()
+    {
+        return nodes.Item1.position + nodes.Item1.direction.ToString() + " to " + nodes.Item2.position + nodes.Item2.direction.ToString();
+    }
 }

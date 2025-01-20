@@ -145,6 +145,7 @@ public class RailPreview : MonoBehaviour
                 }
                 Track track = new Track(firstPosition.Value, secondPosition, firstDirection.Value, rotation);
                 gridManager.addTrack(track);
+                Debug.Log(track.ToString());
                 AudioSource.PlayClipAtPoint(placeSound, Camera.main.transform.position);
 
                 firstDirection = rotation;

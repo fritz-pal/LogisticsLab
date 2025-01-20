@@ -47,8 +47,9 @@ public class Train : MonoBehaviour
     public void CalculatePath(NodeGroup destination)
     {
         NodeGroup start = currentStation.GetNodeGroup();
+        Debug.Log("from" + start.GetStation().GetName() + " to " + destination.GetStation().GetName());
         List<NodeGroup> path = pathingScript.GetPath(start, direction, destination);
-        splineAnimate = new SplineAnimate();
+        //splineAnimate = new SplineAnimate();
         //splineAnimate.Container =
         Debug.Log("Path calculated: " + path);
     }
